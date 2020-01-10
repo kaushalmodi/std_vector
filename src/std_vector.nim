@@ -45,6 +45,9 @@ proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end", header: "<vector>".}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: int): T{.importcpp: "#[#]", header: "<vector>".}
 
+# https://en.cppreference.com/w/cpp/container/vector/assign
+proc assign*[T](v: var Vector[T], idx: int, val: T) {.importcpp: "#.assign(@)", header: "<vector>".}
+
 # Iterators
 iterator items*[T](v: Vector[T]): T=
   for idx in 0 ..< v.len():
@@ -204,3 +207,17 @@ when isMainModule:
     test "immut array -> immut vector -> immut seq":
       check:
         v.toSeq() == s
+
+  suite "assign":
+    setup:
+      var
+        v: Vector[char]
+
+    test "assign":
+      check:
+        block:
+          v.len() == 0
+
+        block:
+          v.assign(4, '.')
+          v.toSeq() == @['.', '.', '.', '.']
