@@ -54,6 +54,22 @@ iterator pairs*[T](v: Vector[T]): (int, T) =
   for idx in 0 ..< v.len():
     yield (idx, v[idx])
 
+# To and from seq
+proc toSeq*[T](v: var Vector[T]): seq[T] =
+  ## Convert Vector to a sequence.
+  for elem in v:
+    result.add(elem)
+
+proc toVector*[T](s: var seq[T]): Vector[T] =
+  ## Convert a sequence to a Vector.
+  result = newVector[T]()
+  for elem in s:
+    result.add(elem)
+proc toVector*[T](s: seq[T]): Vector[T] =
+  var
+    sMut = s
+  return sMut.toVector()
+
 when isMainModule:
   import std/[unittest]
 
@@ -134,3 +150,28 @@ when isMainModule:
     test "beginPtr":
       check:
         v.beginPtr()[] == "hi"
+
+  suite "converting to/from a Vector/mutable sequence":
+    setup:
+      var
+        s = @[1.1, 2.2, 3.3, 4.4, 5.5]
+        v: Vector[float]
+
+    test "mut seq -> mut vector -> mut seq":
+      check:
+        block:
+          v = s.toVector()
+          v.toSeq() == s
+
+  suite "converting from an immutable sequence":
+    setup:
+      let
+        s = @[1.1, 2.2, 3.3, 4.4, 5.5]
+      var
+        v: Vector[float]
+
+    test "immut seq -> mut vector -> mut seq":
+      check:
+        block:
+          v = s.toVector()
+          v.toSeq() == s
