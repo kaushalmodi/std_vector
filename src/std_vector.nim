@@ -61,12 +61,11 @@ proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
 
 {.pop.} # {.push header: "<vector>".}
 
-proc `[]=`*[T](v: var Vector[T], idx: int, val: T) {.inline, noinit.} =
-  # v[idx] = val # This does not work
-  # https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L103
-  # Fri Jan 10 16:57:48 EST 2020 - kmodi
-  # This strange syntax is to avoid a bug in the Nim C++ code generator.
-  (addr v[idx])[] = val
+
+proc `[]=`*[T](v: var Vector[T], idx: int, val: T) {.inline.} =
+  # v[idx] = val # <-- This will not work because that will result in recursive calls of `[]=`.
+  # So first get the elem using `[]`, then get its addr and then deref it.
+  (unsafeAddr v[idx])[] = val
 
 # Iterators
 iterator items*[T](v: Vector[T]): T=
