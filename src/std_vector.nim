@@ -84,7 +84,6 @@ proc toSeq*[T](v: Vector[T]): seq[T] =
 
 proc toVector*[T](s: openArray[T]): Vector[T] =
   ## Convert an array/sequence to a Vector.
-  result = newVector[T]()
   for elem in s:
     result.add(elem)
 
