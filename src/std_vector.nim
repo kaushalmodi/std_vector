@@ -1,5 +1,4 @@
 import std/[strformat]
-# http://www.cplusplus.com/reference/vector/vector/
 
 # https://forum.nim-lang.org/t/3401
 type
