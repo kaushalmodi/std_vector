@@ -152,7 +152,7 @@ when isMainModule:
         block:
           v.last() == 500 and v.back() == 500
 
-  suite "beginPtr, endPtr, iterators":
+  suite "beginPtr, endPtr, iterators, $":
     setup:
       var
         v = newVector[cstring]()
@@ -175,6 +175,10 @@ when isMainModule:
     test "beginPtr":
       check:
         v.beginPtr()[] == "hi"
+
+    test "$":
+      check:
+        $v == "v[hi, there, bye]"
 
   suite "converting to/from a Vector/mutable sequence":
     setup:
@@ -206,8 +210,6 @@ when isMainModule:
       let
         s = @[1.1, 2.2, 3.3, 4.4, 5.5]
         v = s.toVector()
-
-      echo &"  Testing $ for Vector: {v}"
 
     test "immut seq -> immut vector -> mut seq":
       check:
