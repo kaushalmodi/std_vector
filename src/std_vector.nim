@@ -1,52 +1,56 @@
 import std/[strformat]
 
+{.push header: "<vector>".}
+
 # https://forum.nim-lang.org/t/3401
 type
-  Vector*[T] {.importcpp: "std::vector", header: "<vector>".} = object
+  Vector*[T] {.importcpp: "std::vector".} = object
   # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-objects
   VectorIterator*[T] {.importcpp: "std::vector<'0>::iterator".} = object
 
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
-proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", header: "<vector>", constructor.}
+proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 # FIXME Below does not work
-proc newVector*[T](size: int): Vector[T] {.importcpp: "std::vector<'*0>(#)", header: "<vector>", constructor.}
+proc newVector*[T](size: int): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
 
 # http://www.cplusplus.com/reference/vector/vector/size/
-proc size*(v: Vector): int {.importcpp: "#.size()", header: "<vector>".}
-proc len*(v: Vector): int {.importcpp: "#.size()", header: "<vector>".}
+proc size*(v: Vector): int {.importcpp: "#.size()".}
+proc len*(v: Vector): int {.importcpp: "#.size()".}
 
 # https://en.cppreference.com/w/cpp/container/vector/empty
-proc empty*(v: Vector): bool {.importcpp: "empty", header: "<vector>".}
+proc empty*(v: Vector): bool {.importcpp: "empty".}
 
 # https://github.com/nim-lang/Nim/issues/9685#issue-379682147
 # http://www.cplusplus.com/reference/vector/vector/push_back/
-proc pushBack*[T](v: var Vector[T]; elem: T) {.importcpp: "#.push_back(#)", header: "<vector>".}
-proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)", header: "<vector>".}
+proc pushBack*[T](v: var Vector[T]; elem: T) {.importcpp: "#.push_back(#)".}
+proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".}
 # http://www.cplusplus.com/reference/vector/vector/pop_back/
-proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back", header: "<vector>".}
+proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".}
 
 # https://en.cppreference.com/w/cpp/container/vector/front
-proc front*[T](v: Vector[T]): T {.importcpp: "front", header: "<vector>".}
-proc first*[T](v: Vector[T]): T {.importcpp: "front", header: "<vector>".}
+proc front*[T](v: Vector[T]): T {.importcpp: "front".}
+proc first*[T](v: Vector[T]): T {.importcpp: "front".}
 
 # http://www.cplusplus.com/reference/vector/vector/back/
-proc back*[T](v: Vector[T]): T {.importcpp: "back", header: "<vector>".}
-proc last*[T](v: Vector[T]): T {.importcpp: "back", header: "<vector>".}
+proc back*[T](v: Vector[T]): T {.importcpp: "back".}
+proc last*[T](v: Vector[T]): T {.importcpp: "back".}
 
 # http://www.cplusplus.com/reference/vector/vector/begin/
-proc begin*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "begin", header: "<vector>".}
-proc beginPtr*[T](v: Vector[T]): ptr T {.importcpp: "begin", header: "<vector>".}
+proc begin*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "begin".}
+proc beginPtr*[T](v: Vector[T]): ptr T {.importcpp: "begin".}
 
 # http://www.cplusplus.com/reference/vector/vector/end/
-proc `end`*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "end", header: "<vector>".}
-proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end", header: "<vector>".}
+proc `end`*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "end".}
+proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc `[]`*[T](v: Vector[T], idx: int): T{.importcpp: "#[#]", header: "<vector>".}
+proc `[]`*[T](v: Vector[T], idx: int): T {.importcpp: "#[#]".}
 
 # https://en.cppreference.com/w/cpp/container/vector/assign
-proc assign*[T](v: var Vector[T], idx: int, val: T) {.importcpp: "#.assign(@)", header: "<vector>".}
+proc assign*[T](v: var Vector[T], idx: int, val: T) {.importcpp: "#.assign(@)".}
+
+{.pop.} # {.push header: "<vector>".}
 
 # Iterators
 iterator items*[T](v: Vector[T]): T=
