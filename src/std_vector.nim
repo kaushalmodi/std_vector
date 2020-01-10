@@ -77,6 +77,17 @@ proc toVector*[T](s: seq[T]): Vector[T] =
     sMut = s
   return sMut.toVector()
 
+# Display the content of a Vector
+# https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L197
+proc `$`*[T](v: Vector[T]): string {.noinit.} =
+  if v.empty():
+    result = "v[]"
+  else:
+    result = "v["
+    for idx in 0 ..< v.size()-1:
+      result.add($v[idx] & ", ")
+    result.add($v.last() & "]")
+
 when isMainModule:
   import std/[unittest]
 
@@ -195,6 +206,8 @@ when isMainModule:
       let
         s = @[1.1, 2.2, 3.3, 4.4, 5.5]
         v = s.toVector()
+
+      echo &"  Testing $ for Vector: {v}"
 
     test "immut seq -> immut vector -> mut seq":
       check:
