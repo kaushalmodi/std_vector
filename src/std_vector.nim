@@ -46,11 +46,19 @@ proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: int): T {.importcpp: "#[#]".}
+proc `[]`*[T](v: var Vector[T], idx: int): var T {.importcpp: "#[#]".}
 
 # https://en.cppreference.com/w/cpp/container/vector/assign
 proc assign*[T](v: var Vector[T], idx: int, val: T) {.importcpp: "#.assign(@)".}
 
 {.pop.} # {.push header: "<vector>".}
+
+proc `[]=`*[T](v: var Vector[T], idx: int, val: T) {.inline, noinit.} =
+  # v[idx] = val # This does not work
+  # https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L103
+  # Fri Jan 10 16:57:48 EST 2020 - kmodi
+  # This strange syntax is to avoid a bug in the Nim C++ code generator.
+  (addr v[idx])[] = val
 
 # Iterators
 iterator items*[T](v: Vector[T]): T=
@@ -225,3 +233,15 @@ when isMainModule:
         block:
           v.assign(4, '.')
           v.toSeq() == @['.', '.', '.', '.']
+
+  suite "set an element value":
+    setup:
+      var
+        v = newVector[int](5)
+
+    test "[]=":
+      check:
+        block:
+          v[1] = 100
+          v[3] = 300
+          v.toSeq() == @[0, 100, 0, 300, 0]
