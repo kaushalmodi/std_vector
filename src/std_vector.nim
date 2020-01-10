@@ -11,7 +11,6 @@ type
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
 proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-# FIXME Below does not work
 proc newVector*[T](size: int): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
 
 # http://www.cplusplus.com/reference/vector/vector/size/
