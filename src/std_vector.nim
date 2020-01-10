@@ -44,7 +44,6 @@ proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end", header: "<vector>".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: int): T{.importcpp: "#[#]", header: "<vector>".}
-proc `[]`*[T](v: var Vector[T], idx: int): var T{.importcpp: "#[#]", header: "<vector>".}
 
 # Iterators
 iterator items*[T](v: Vector[T]): T=
@@ -56,26 +55,16 @@ iterator pairs*[T](v: Vector[T]): (int, T) =
     yield (idx, v[idx])
 
 # To and from seq
-proc toSeq*[T](v: var Vector[T]): seq[T] =
-  ## Convert mutable Vector to a sequence.
+proc toSeq*[T](v: Vector[T]): seq[T] =
+  ## Convert a Vector to a sequence.
   for elem in v:
     result.add(elem)
-proc toSeq*[T](v: Vector[T]): seq[T] =
-  ## Convert immutable Vector to a sequence.
-  var
-    vMut = v
-  return vMut.toSeq()
 
-proc toVector*[T](s: var seq[T]): Vector[T] =
-  ## Convert mutable sequence to a Vector.
+proc toVector*[T](s: openArray[T]): Vector[T] =
+  ## Convert an array/sequence to a Vector.
   result = newVector[T]()
   for elem in s:
     result.add(elem)
-proc toVector*[T](s: seq[T]): Vector[T] =
-  ## Convert immutable sequence to a Vector.
-  var
-    sMut = s
-  return sMut.toVector()
 
 # Display the content of a Vector
 # https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L197
@@ -89,7 +78,7 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
     result.add($v.last() & "]")
 
 when isMainModule:
-  import std/[unittest]
+  import std/[unittest, sequtils]
 
   # TODO How to use the VectorIterator now?
   # dummy code follows:
@@ -205,12 +194,13 @@ when isMainModule:
           v = s.toVector()
           v.toSeq() == s
 
-  suite "converting from an immutable Vector":
+  suite "converting array -> Vector -> sequence":
     setup:
       let
-        s = @[1.1, 2.2, 3.3, 4.4, 5.5]
-        v = s.toVector()
+        a = [1.1, 2.2, 3.3, 4.4, 5.5]
+        v = a.toVector()
+        s = a.toSeq()
 
-    test "immut seq -> immut vector -> mut seq":
+    test "immut array -> immut vector -> immut seq":
       check:
         v.toSeq() == s
