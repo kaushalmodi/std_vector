@@ -14,12 +14,10 @@ proc newVector*[T](size: int): Vector[T] {.importcpp: "std::vector<'*0>(#)", hea
 
 # http://www.cplusplus.com/reference/vector/vector/size/
 proc size*(v: Vector): int {.importcpp: "#.size()", header: "<vector>".}
-proc size*(v: var Vector): int {.importcpp: "#.size()", header: "<vector>".}
 proc len*(v: Vector): int {.importcpp: "#.size()", header: "<vector>".}
-proc len*(v: var Vector): int {.importcpp: "#.size()", header: "<vector>".}
 
 # https://en.cppreference.com/w/cpp/container/vector/empty
-proc empty*[T](v: Vector[T]): bool {.importcpp: "empty", header: "<vector>".}
+proc empty*(v: Vector): bool {.importcpp: "empty", header: "<vector>".}
 
 # https://github.com/nim-lang/Nim/issues/9685#issue-379682147
 # http://www.cplusplus.com/reference/vector/vector/push_back/
@@ -29,20 +27,20 @@ proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)", header: "<
 proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back", header: "<vector>".}
 
 # https://en.cppreference.com/w/cpp/container/vector/front
-proc front*[T](v: var Vector[T]): T {.importcpp: "front", header: "<vector>".}
-proc first*[T](v: var Vector[T]): T {.importcpp: "front", header: "<vector>".}
+proc front*[T](v: Vector[T]): T {.importcpp: "front", header: "<vector>".}
+proc first*[T](v: Vector[T]): T {.importcpp: "front", header: "<vector>".}
 
 # http://www.cplusplus.com/reference/vector/vector/back/
-proc back*[T](v: var Vector[T]): T {.importcpp: "back", header: "<vector>".}
-proc last*[T](v: var Vector[T]): T {.importcpp: "back", header: "<vector>".}
+proc back*[T](v: Vector[T]): T {.importcpp: "back", header: "<vector>".}
+proc last*[T](v: Vector[T]): T {.importcpp: "back", header: "<vector>".}
 
 # http://www.cplusplus.com/reference/vector/vector/begin/
-proc begin*[T](v: var Vector[T]): VectorIterator[T] {.importcpp: "begin", header: "<vector>".}
-proc beginPtr*[T](v: var Vector[T]): ptr T {.importcpp: "begin", header: "<vector>".}
+proc begin*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "begin", header: "<vector>".}
+proc beginPtr*[T](v: Vector[T]): ptr T {.importcpp: "begin", header: "<vector>".}
 
 # http://www.cplusplus.com/reference/vector/vector/end/
-proc `end`*[T](v: var Vector[T]): VectorIterator[T] {.importcpp: "end", header: "<vector>".}
-proc endPtr*[T](v: var Vector[T]): ptr T {.importcpp: "end", header: "<vector>".}
+proc `end`*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "end", header: "<vector>".}
+proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end", header: "<vector>".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: int): T{.importcpp: "#[#]", header: "<vector>".}
