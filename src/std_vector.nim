@@ -3,9 +3,9 @@ import std/[strformat]
 
 # https://forum.nim-lang.org/t/3401
 type
-  Vector* {.importcpp: "std::vector", header: "<vector>".} [T] = object
+  Vector*[T] {.importcpp: "std::vector", header: "<vector>".} = object
   # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-objects
-  VectorIterator {.importcpp: "std::vector<'0>::iterator".} [T] = object
+  VectorIterator*[T] {.importcpp: "std::vector<'0>::iterator".} = object
 
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
 proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", header: "<vector>", constructor.}
