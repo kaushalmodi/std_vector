@@ -56,16 +56,22 @@ iterator pairs*[T](v: Vector[T]): (int, T) =
 
 # To and from seq
 proc toSeq*[T](v: var Vector[T]): seq[T] =
-  ## Convert Vector to a sequence.
+  ## Convert mutable Vector to a sequence.
   for elem in v:
     result.add(elem)
+proc toSeq*[T](v: Vector[T]): seq[T] =
+  ## Convert immutable Vector to a sequence.
+  var
+    vMut = v
+  return vMut.toSeq()
 
 proc toVector*[T](s: var seq[T]): Vector[T] =
-  ## Convert a sequence to a Vector.
+  ## Convert mutable sequence to a Vector.
   result = newVector[T]()
   for elem in s:
     result.add(elem)
 proc toVector*[T](s: seq[T]): Vector[T] =
+  ## Convert immutable sequence to a Vector.
   var
     sMut = s
   return sMut.toVector()
@@ -157,7 +163,7 @@ when isMainModule:
         s = @[1.1, 2.2, 3.3, 4.4, 5.5]
         v: Vector[float]
 
-    test "mut seq -> mut vector -> mut seq":
+    test "mut seq -> mut Vector -> mut seq":
       check:
         block:
           v = s.toVector()
@@ -170,8 +176,18 @@ when isMainModule:
       var
         v: Vector[float]
 
-    test "immut seq -> mut vector -> mut seq":
+    test "immut seq -> mut Vector -> mut seq":
       check:
         block:
           v = s.toVector()
           v.toSeq() == s
+
+  suite "converting from an immutable Vector":
+    setup:
+      let
+        s = @[1.1, 2.2, 3.3, 4.4, 5.5]
+        v = s.toVector()
+
+    test "immut seq -> immut vector -> mut seq":
+      check:
+        v.toSeq() == s
