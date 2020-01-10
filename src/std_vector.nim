@@ -18,6 +18,9 @@ proc size*(v: var Vector): int {.importcpp: "#.size()", header: "<vector>".}
 proc len*(v: Vector): int {.importcpp: "#.size()", header: "<vector>".}
 proc len*(v: var Vector): int {.importcpp: "#.size()", header: "<vector>".}
 
+# https://en.cppreference.com/w/cpp/container/vector/empty
+proc empty*[T](v: Vector[T]): bool {.importcpp: "empty", header: "<vector>".}
+
 # https://github.com/nim-lang/Nim/issues/9685#issue-379682147
 # http://www.cplusplus.com/reference/vector/vector/push_back/
 proc pushBack*[T](v: var Vector[T]; elem: T) {.importcpp: "#.push_back(#)", header: "<vector>".}
@@ -84,7 +87,7 @@ when isMainModule:
   # for vElem in <VectorIterator var>:
   #   echo vElem
 
-  suite "constructor, size":
+  suite "constructor, size, empty":
     setup:
       var
         v1 = newVector[int]()
@@ -97,6 +100,13 @@ when isMainModule:
     test "constructor with size specification":
       check:
         v2.len() == 10
+
+    test "empty":
+      check:
+        block:
+          v1.empty() == true
+        block:
+          v2.empty() == false
 
   suite "push, pop":
     setup:
