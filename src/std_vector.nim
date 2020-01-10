@@ -51,6 +51,15 @@ proc `[]`*[T](v: var Vector[T], idx: int): var T {.importcpp: "#[#]".}
 # https://en.cppreference.com/w/cpp/container/vector/assign
 proc assign*[T](v: var Vector[T], idx: int, val: T) {.importcpp: "#.assign(@)".}
 
+# https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L171
+# Relational operators
+proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".}
+proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".}
+proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
+proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
+proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
+proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
+
 {.pop.} # {.push header: "<vector>".}
 
 proc `[]=`*[T](v: var Vector[T], idx: int, val: T) {.inline, noinit.} =
@@ -245,3 +254,48 @@ when isMainModule:
           v[1] = 100
           v[3] = 300
           v.toSeq() == @[0, 100, 0, 300, 0]
+
+  suite "relational operators":
+    setup:
+      let
+        v1 = @[1, 2, 3].toVector()
+        v2 = v1
+        v3 = @[1, 2, 4].toVector()
+        v4 = @[1, 2, 3, 0].toVector()
+
+    test "==, <=, >=":
+      check:
+        block:
+          v1 == v2
+        block:
+          v1 <= v2
+        block:
+          v1 >= v2
+
+    test ">, >=":
+      check:
+        block:
+          v3 > v1
+        block:
+          v3 >= v1
+
+    test ">, unequal vector lengths":
+      check:
+        block:
+          v4 > v1
+        block:
+          v3 > v4
+
+    test "<, <=":
+      check:
+        block:
+          v1 < v3
+        block:
+          v1 <= v3
+
+    test "<, unequal vector lengths":
+      check:
+        block:
+          v1 < v4
+        block:
+          v4 < v3
