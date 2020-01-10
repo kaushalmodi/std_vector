@@ -25,12 +25,17 @@ proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)", header: "<
 # http://www.cplusplus.com/reference/vector/vector/pop_back/
 proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back", header: "<vector>".}
 
-# http://www.cplusplus.com/reference/vector/vector/begin/
-proc begin*[T](v: var Vector[T]): VectorIterator[T] {.importcpp: "begin", header: "<vector>".}
-proc beginPtr*[T](v: var Vector[T]): ptr T {.importcpp: "begin", header: "<vector>".}
+# https://en.cppreference.com/w/cpp/container/vector/front
+proc front*[T](v: var Vector[T]): T {.importcpp: "front", header: "<vector>".}
+proc first*[T](v: var Vector[T]): T {.importcpp: "front", header: "<vector>".}
 
 # http://www.cplusplus.com/reference/vector/vector/back/
 proc back*[T](v: var Vector[T]): T {.importcpp: "back", header: "<vector>".}
+proc last*[T](v: var Vector[T]): T {.importcpp: "back", header: "<vector>".}
+
+# http://www.cplusplus.com/reference/vector/vector/begin/
+proc begin*[T](v: var Vector[T]): VectorIterator[T] {.importcpp: "begin", header: "<vector>".}
+proc beginPtr*[T](v: var Vector[T]): ptr T {.importcpp: "begin", header: "<vector>".}
 
 # http://www.cplusplus.com/reference/vector/vector/end/
 proc `end`*[T](v: var Vector[T]): VectorIterator[T] {.importcpp: "end", header: "<vector>".}
@@ -50,45 +55,82 @@ iterator pairs*[T](v: Vector[T]): (int, T) =
     yield (idx, v[idx])
 
 when isMainModule:
-  var
-    v1 = newVector[int]()
-    v2 = newVector[int](10)
-
-  echo &"size of v1 = {v1.size()}"
-  echo &"size of v2 = {v2.size()}"
-
-  v1.pushBack(100)
-  echo &"size of v1 = {v1.len()}"
-
-  v1.add(200)
-  echo &"size of v1 = {v1.len()}"
-
-  v1.popBack()
-  echo v1.size()
-
-  v1.add(300)
-  v1.add(400)
-  v1.add(500)
-  echo v1.size()
-
-  echo v1.beginPtr()[]
-  echo v1.back()
-
-  echo v1.endPtr()[] # Will return an arbitrary value as this returns
-                    # the ptr to memory *after* the last element.
-
-  for idx in 0 ..< v1.len():
-    echo &"v1[{idx}] = {v1[idx]}"
-
-  for elem in v1:
-    echo &"{elem}"
-
-  for idx, elem in v1:
-    echo &"v1[{idx}] = {elem}"
+  import std/[unittest]
 
   # TODO How to use the VectorIterator now?
   # dummy code follows:
   # for vElem in <VectorIterator var>:
-  #   echo vElme
+  #   echo vElem
 
-# https://forum.nim-lang.org/t/5787
+  suite "constructor, size":
+    setup:
+      var
+        v1 = newVector[int]()
+        v2 = newVector[int](10)
+
+    test "constructor without size specification":
+      check:
+        v1.size() == 0
+
+    test "constructor with size specification":
+      check:
+        v2.len() == 10
+
+  suite "push, pop":
+    setup:
+      var
+        v = newVector[int]()
+
+    test "push/add, pop, front/first, back/last":
+      check:
+        block:
+          v.pushBack(100)
+          v.size() == 1
+
+        block:
+          v.add(200)
+          v.size() == 2
+
+        block:
+          v.popBack()
+          v.size() == 1
+
+        block:
+          v.add(300)
+          v.add(400)
+          v.add(500)
+
+          for idx in 0 ..< v.len():
+            echo &"  v[{idx}] = {v[idx]}"
+
+          v.size() == 4
+
+        block:
+          v.first() == 100 and v.front() == 100
+
+        block:
+          v.last() == 500 and v.back() == 500
+
+  suite "beginPtr, endPtr, iterators":
+    setup:
+      var
+        v = newVector[cstring]()
+      v.add("hi")
+      v.add("there")
+      v.add("bye")
+
+      echo v.endPtr()[] # This will return an arbitrary value as this returns
+                        # the ptr to memory *after* the last element.
+
+      echo "Testing items iterator:"
+      for elem in v:
+        echo &" {elem}"
+      echo ""
+
+      echo "Testing pairs iterator:"
+      for idx, elem in v:
+        echo &" v[{idx}] = {elem}"
+
+    test "beginPtr":
+      check:
+        v.beginPtr()[] == "hi"
