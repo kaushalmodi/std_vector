@@ -113,19 +113,14 @@ when isMainModule:
         v2 = newVector[int](10)
 
     test "constructor without size specification":
-      check:
-        v1.size() == 0
+      check v1.size() == 0
 
     test "constructor with size specification":
-      check:
-        v2.len() == 10
+      check v2.len() == 10
 
     test "empty":
-      check:
-        block:
-          v1.empty() == true
-        block:
-          v2.empty() == false
+      check v1.empty() == true
+      check v2.empty() == false
 
   suite "push, pop":
     setup:
@@ -133,39 +128,35 @@ when isMainModule:
         v = newVector[int]()
 
     test "push/add, pop, front/first, back/last":
-      check:
-        block:
-          v.pushBack(100)
-          v.size() == 1
+      v.pushBack(100)
+      check v.size() == 1
 
-        block:
-          v.add(200)
-          v.size() == 2
+      v.add(200)
+      check v.size() == 2
 
-        block:
-          v.popBack()
-          v.size() == 1
+      v.popBack()
+      check v.size() == 1
 
-        block:
-          v.add(300)
-          v.add(400)
-          v.add(500)
+      v.add(300)
+      v.add(400)
+      v.add(500)
 
-          for idx in 0 ..< v.len():
-            echo &"  v[{idx}] = {v[idx]}"
+      for idx in 0 ..< v.len():
+        echo &"  v[{idx}] = {v[idx]}"
 
-          v.size() == 4
+      check v.size() == 4
 
-        block:
-          v.first() == 100 and v.front() == 100
+      check v.first() == 100
+      check v.front() == 100
 
-        block:
-          v.last() == 500 and v.back() == 500
+      check v.last() == 500
+      check v.back() == 500
 
   suite "beginPtr, endPtr, iterators, $":
     setup:
       var
         v = newVector[cstring]()
+
       v.add("hi")
       v.add("there")
       v.add("bye")
@@ -183,12 +174,10 @@ when isMainModule:
         echo &" v[{idx}] = {elem}"
 
     test "beginPtr":
-      check:
-        v.beginPtr()[] == "hi"
+      check v.beginPtr()[] == "hi"
 
     test "$":
-      check:
-        $v == "v[hi, there, bye]"
+      check $v == "v[hi, there, bye]"
 
   suite "converting to/from a Vector/mutable sequence":
     setup:
@@ -197,10 +186,9 @@ when isMainModule:
         v: Vector[float]
 
     test "mut seq -> mut Vector -> mut seq":
-      check:
-        block:
-          v = s.toVector()
-          v.toSeq() == s
+      v = s.toVector()
+      check v.toSeq() == s
+
 
   suite "converting from an immutable sequence":
     setup:
@@ -210,10 +198,8 @@ when isMainModule:
         v: Vector[float]
 
     test "immut seq -> mut Vector -> mut seq":
-      check:
-        block:
-          v = s.toVector()
-          v.toSeq() == s
+      v = s.toVector()
+      check v.toSeq() == s
 
   suite "converting array -> Vector -> sequence":
     setup:
@@ -223,8 +209,7 @@ when isMainModule:
         s = a.toSeq()
 
     test "immut array -> immut vector -> immut seq":
-      check:
-        v.toSeq() == s
+      check v.toSeq() == s
 
   suite "assign":
     setup:
@@ -232,13 +217,10 @@ when isMainModule:
         v: Vector[char]
 
     test "assign":
-      check:
-        block:
-          v.len() == 0
+      check v.len() == 0
 
-        block:
-          v.assign(4, '.')
-          v.toSeq() == @['.', '.', '.', '.']
+      v.assign(4, '.')
+      check v.toSeq() == @['.', '.', '.', '.']
 
   suite "set an element value":
     setup:
@@ -246,11 +228,9 @@ when isMainModule:
         v = newVector[int](5)
 
     test "[]=":
-      check:
-        block:
-          v[1] = 100
-          v[3] = 300
-          v.toSeq() == @[0, 100, 0, 300, 0]
+      v[1] = 100
+      v[3] = 300
+      check v.toSeq() == @[0, 100, 0, 300, 0]
 
   suite "relational operators":
     setup:
@@ -261,38 +241,22 @@ when isMainModule:
         v4 = @[1, 2, 3, 0].toVector()
 
     test "==, <=, >=":
-      check:
-        block:
-          v1 == v2
-        block:
-          v1 <= v2
-        block:
-          v1 >= v2
+      check v1 == v2
+      check v1 <= v2
+      check v1 >= v2
 
     test ">, >=":
-      check:
-        block:
-          v3 > v1
-        block:
-          v3 >= v1
+      check v3 > v1
+      check v3 >= v1
 
     test ">, unequal vector lengths":
-      check:
-        block:
-          v4 > v1
-        block:
-          v3 > v4
+      check v4 > v1
+      check v3 > v4
 
     test "<, <=":
-      check:
-        block:
-          v1 < v3
-        block:
-          v1 <= v3
+      check v1 < v3
+      check v1 <= v3
 
     test "<, unequal vector lengths":
-      check:
-        block:
-          v1 < v4
-        block:
-          v4 < v3
+      check v1 < v4
+      check v4 < v3
