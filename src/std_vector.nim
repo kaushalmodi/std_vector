@@ -6,7 +6,8 @@ import std/[strformat]
 type
   Vector*[T] {.importcpp: "std::vector".} = object
   # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-objects
-  VectorIterator*[T] {.importcpp: "std::vector<'0>::iterator".} = object
+  VectorIter*[T] {.importcpp: "std::vector<'0>::iterator".} = object
+  VectorConstIter*[T] {.importcpp: "std::vector<'0>::const_iterator".} = object
 
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
 proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
@@ -36,12 +37,12 @@ proc back*[T](v: Vector[T]): T {.importcpp: "back".}
 proc last*[T](v: Vector[T]): T {.importcpp: "back".}
 
 # http://www.cplusplus.com/reference/vector/vector/begin/
-proc begin*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "begin".}
-proc beginPtr*[T](v: Vector[T]): ptr T {.importcpp: "begin".}
+proc begin*[T](v: Vector[T]): VectorIter[T] {.importcpp: "begin".}
+proc cBegin*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cbegin".}
 
 # http://www.cplusplus.com/reference/vector/vector/end/
-proc `end`*[T](v: Vector[T]): VectorIterator[T] {.importcpp: "end".}
-proc endPtr*[T](v: Vector[T]): ptr T {.importcpp: "end".}
+proc `end`*[T](v: Vector[T]): VectorIter[T] {.importcpp: "end".}
+proc cEnd*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cend".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: int): T {.importcpp: "#[#]".}
@@ -58,6 +59,18 @@ proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
 proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
 proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
 proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
+
+# Converter: VecIterator -> VecConstIterator
+converter VectorIterToVectorConstIter*[T](x: VectorIter[T]): VectorConstIter[T] {.importcpp: "#".}
+
+proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T] {.importcpp: "insert".}
+  ## Inserts ``val`` before ``pos``.
+
+proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: int, val: T): VectorIter[T] {.importcpp: "insert".}
+  ## Inserts ``count`` copies of ``val`` before ``pos``.
+
+proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorIter[T] {.importcpp: "insert".}
+  ## Inserts elements from range ``first`` ..< ``last`` before ``pos``.
 
 {.pop.} # {.push header: "<vector>".}
 
@@ -101,9 +114,9 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
 when isMainModule:
   import std/[unittest, sequtils]
 
-  # TODO How to use the VectorIterator now?
+  # TODO How to use the VectorIter now?
   # dummy code follows:
-  # for vElem in <VectorIterator var>:
+  # for vElem in <VectorIter var>:
   #   echo vElem
 
   suite "constructor, size, empty":
@@ -152,7 +165,7 @@ when isMainModule:
       check v.last() == 500
       check v.back() == 500
 
-  suite "beginPtr, endPtr, iterators, $":
+  suite "iterators, $":
     setup:
       var
         v = newVector[cstring]()
@@ -160,9 +173,6 @@ when isMainModule:
       v.add("hi")
       v.add("there")
       v.add("bye")
-
-      echo v.endPtr()[] # This will return an arbitrary value as this returns
-                        # the ptr to memory *after* the last element.
 
       echo "Testing items iterator:"
       for elem in v:
@@ -172,9 +182,6 @@ when isMainModule:
       echo "Testing pairs iterator:"
       for idx, elem in v:
         echo &" v[{idx}] = {elem}"
-
-    test "beginPtr":
-      check v.beginPtr()[] == "hi"
 
     test "$":
       check $v == "v[hi, there, bye]"
@@ -260,3 +267,40 @@ when isMainModule:
     test "<, unequal vector lengths":
       check v1 < v4
       check v4 < v3
+
+  suite "(c)begin, (c)end, insert":
+    setup:
+      var
+        v = @[1, 2, 3].toVector()
+        v2: Vector[int]
+
+    test "insert elem at the beginning":
+      discard v.insert(v.cBegin(), 9)
+      check v == @[9, 1, 2, 3].toVector()
+
+      # Below, using .begin() instead of .cBegin() also
+      # works.. because of the VectorIterToVectorConstIter converter.
+      discard v.insert(v.begin(), 10)
+      check v == @[10, 9, 1, 2, 3].toVector()
+
+    test "insert elem at the end":
+      discard v.insert(v.cEnd(), 9)
+      check v == @[1, 2, 3, 9].toVector()
+
+      # Below, using .`end`() instead of .cEnd() also
+      # works.. because of the VectorIterToVectorConstIter converter.
+      discard v.insert(v.`end`(), 10)
+      check v == @[1, 2, 3, 9, 10].toVector()
+
+    test "insert copies of a val":
+      discard v.insert(v.cEnd(), 3, 111)
+      check v == @[1, 2, 3, 111, 111, 111].toVector()
+
+    test "insert elements from a Vector range":
+      # Below copies the whole vector and appends to itself at the end.
+      discard v.insert(v.cEnd(), v.cBegin(), v.cEnd())
+      check v == @[1, 2, 3, 1, 2, 3].toVector()
+
+      # Below is a long-winded way to copy one Vector to another.
+      discard v2.insert(v2.cEnd(), v.cBegin(), v.cEnd())
+      check v2 == v
