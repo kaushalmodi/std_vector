@@ -1,3 +1,8 @@
+when not defined(cpp):
+  import std/[macros]
+  static:
+    error "This library needs to be compiled with the cpp backend."
+
 import std/[strformat]
 
 {.push header: "<vector>".}
