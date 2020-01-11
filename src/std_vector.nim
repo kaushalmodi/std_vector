@@ -72,6 +72,11 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: int, val: T): 
 proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorIter[T] {.importcpp: "insert".}
   ## Inserts elements from range ``first`` ..< ``last`` before ``pos``.
 
+# https://github.com/BigEpsilon/nim-cppstl/blob/master/src/cppstl/private/utils.nim
+# Iterator Arithmetic
+proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# + #"}
+proc `-`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# - #"}
+
 {.pop.} # {.push header: "<vector>".}
 
 
@@ -113,11 +118,6 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
 
 when isMainModule:
   import std/[unittest, sequtils]
-
-  # TODO How to use the VectorIter now?
-  # dummy code follows:
-  # for vElem in <VectorIter var>:
-  #   echo vElem
 
   suite "constructor, size, empty":
     setup:
@@ -304,3 +304,16 @@ when isMainModule:
       # Below is a long-winded way to copy one Vector to another.
       discard v2.insert(v2.cEnd(), v.cBegin(), v.cEnd())
       check v2 == v
+
+  suite "iterator arithmetic":
+    setup:
+      var
+        v = @[1, 2, 3].toVector()
+
+    test "insert elem after the first element":
+      discard v.insert(v.cBegin()+1, 9)
+      check v == @[1, 9, 2, 3].toVector()
+
+    test "insert elem before the last element":
+      discard v.insert(v.cEnd()-1, 9)
+      check v == @[1, 2, 9, 3].toVector()
