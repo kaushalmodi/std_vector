@@ -369,7 +369,7 @@ proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorI
 {.pop.} # {.push header: "<vector>".}
 
 
-## Aliases
+# Aliases
 
 proc size*(v: Vector): SizeType {.inline.} =
   ## Alias for `len proc <#len,Vector>`_.
@@ -388,7 +388,7 @@ proc back*[T](v: Vector[T]): T {.inline.} =
   v.last()
 
 
-## Other procs
+# Other procs
 
 proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
   ## Set the value at ``v[idx]`` to the specified value ``val``.
@@ -405,7 +405,7 @@ proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
   (unsafeAddr v[idx])[] = val
 
 
-## Iterators
+# Iterators
 
 iterator items*[T](v: Vector[T]): T=
   ## Iterate over all the elements in Vector ``v``.
