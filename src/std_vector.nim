@@ -124,16 +124,14 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
 when isMainModule:
   import std/[unittest, sequtils]
 
-  suite "constructor, size, empty":
+  suite "constructor, size/len, empty":
     setup:
       var
         v1 = newVector[int]()
         v2 = newVector[int](10)
 
-    test "constructor without size specification":
+    test "size/len":
       check v1.size() == 0
-
-    test "constructor with size specification":
       check v2.len() == 10
 
     test "empty":
@@ -248,36 +246,44 @@ when isMainModule:
     setup:
       let
         v1 = @[1, 2, 3].toVector()
-        v2 = v1
-        v3 = @[1, 2, 4].toVector()
-        v4 = @[1, 2, 3, 0].toVector()
 
     test "==, <=, >=":
+      let
+        v2 = v1
       check v1 == v2
       check v1 <= v2
       check v1 >= v2
 
     test ">, >=":
-      check v3 > v1
-      check v3 >= v1
+      let
+        v2 = @[1, 2, 4].toVector()
+      check v2 > v1
+      check v2 >= v1
 
     test ">, unequal vector lengths":
-      check v4 > v1
-      check v3 > v4
+      let
+        v2 = @[1, 2, 4].toVector()
+        v3 = @[1, 2, 3, 0].toVector()
+      check v3 > v1
+      check v2 > v3
 
     test "<, <=":
-      check v1 < v3
-      check v1 <= v3
+      let
+        v2 = @[1, 2, 4].toVector()
+      check v1 < v2
+      check v1 <= v2
 
     test "<, unequal vector lengths":
-      check v1 < v4
-      check v4 < v3
+      let
+        v2 = @[1, 2, 4].toVector()
+        v3 = @[1, 2, 3, 0].toVector()
+      check v1 < v3
+      check v3 < v2
 
   suite "(c)begin, (c)end, insert":
     setup:
       var
         v = @[1, 2, 3].toVector()
-        v2: Vector[int]
 
     test "insert elem at the beginning":
       discard v.insert(v.cBegin(), 9)
@@ -307,6 +313,8 @@ when isMainModule:
       check v == @[1, 2, 3, 1, 2, 3].toVector()
 
       # Below is a long-winded way to copy one Vector to another.
+      var
+        v2: Vector[int]
       discard v2.insert(v2.cEnd(), v.cBegin(), v.cEnd())
       check v2 == v
 
