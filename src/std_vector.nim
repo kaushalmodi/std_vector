@@ -11,6 +11,7 @@ type
   # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-objects
   VectorIter*[T] {.importcpp: "std::vector<'0>::iterator".} = object
   VectorConstIter*[T] {.importcpp: "std::vector<'0>::const_iterator".} = object
+  SizeType* = uint
 
 converter VectorIterToVectorConstIter*[T](x: VectorIter[T]): VectorConstIter[T] {.importcpp: "#".}
   ## Implicitly convert mutable C++ iterator to immutable C++ iterator.
@@ -18,10 +19,10 @@ converter VectorIterToVectorConstIter*[T](x: VectorIter[T]): VectorConstIter[T] 
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
 proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc newVector*[T](size: int): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
+proc newVector*[T](size: SizeType): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
 
 # https://en.cppreference.com/w/cpp/container/vector/size
-proc len*(v: Vector): int {.importcpp: "#.size()".}
+proc len*(v: Vector): SizeType {.importcpp: "#.size()".}
   ## Return the number of elements in the Vector.
   ##
   ## This has an alias proc ``size``.
@@ -115,7 +116,7 @@ proc last*[T](v: Vector[T]): T {.importcpp: "back".}
   ##    doAssert v.last() == v.back()
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc `[]`*[T](v: Vector[T], idx: int): T {.importcpp: "#[#]".}
+proc `[]`*[T](v: Vector[T], idx: SizeType): T {.importcpp: "#[#]".}
   ## Retrieve the value at immutable ``v[idx]`` to an immutable variable.
   ##
   ## .. code-block::
@@ -128,7 +129,7 @@ proc `[]`*[T](v: Vector[T], idx: int): T {.importcpp: "#[#]".}
   ##      v2 = v1
   ##    doAssert v2[0] == 'a'
 
-proc `[]`*[T](v: var Vector[T], idx: int): var T {.importcpp: "#[#]".}
+proc `[]`*[T](v: var Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
   ## Retrieve the value at mutable ``v[idx]`` to a mutable variable.
   ##
   ## .. code-block::
@@ -142,7 +143,7 @@ proc `[]`*[T](v: var Vector[T], idx: int): var T {.importcpp: "#[#]".}
   ##    doAssert vElem == 'a'
 
 # https://en.cppreference.com/w/cpp/container/vector/assign
-proc assign*[T](v: var Vector[T], num: int, val: T) {.importcpp: "#.assign(@)".}
+proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(@)".}
   ## Return a Vector with ``num`` elements assigned to the specified value ``val``.
   ##
   ## .. code-block::
@@ -343,7 +344,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T
   ##    discard v.insert(v.cBegin(), 'c')
   ##    doAssert v.toSeq() == @['c', 'a', 'b']
 
-proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: int, val: T): VectorIter[T] {.importcpp: "insert".}
+proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val: T): VectorIter[T] {.importcpp: "insert".}
   ## Insert ``count`` copies of element  before the specified position.
   ##
   ## .. code-block::
@@ -370,7 +371,7 @@ proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorI
 
 ## Aliases
 
-proc size*(v: Vector): int {.inline.} =
+proc size*(v: Vector): SizeType {.inline.} =
   ## Alias for `len proc <#len,Vector>`_.
   v.len()
 
@@ -389,7 +390,7 @@ proc back*[T](v: Vector[T]): T {.inline.} =
 
 ## Other procs
 
-proc `[]=`*[T](v: var Vector[T], idx: int, val: T) {.inline.} =
+proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
   ## Set the value at ``v[idx]`` to the specified value ``val``.
   runnableExamples:
     var
@@ -419,10 +420,10 @@ iterator items*[T](v: Vector[T]): T=
       sum += elem
     doAssert sum == 15
   #
-  for idx in 0 ..< v.len():
+  for idx in 0.SizeType ..< v.len():
     yield v[idx]
 
-iterator pairs*[T](v: Vector[T]): (int, T) =
+iterator pairs*[T](v: Vector[T]): (SizeType, T) =
   ## Iterate over ``(index, value)`` for all the elements in Vector ``v``.
   runnableExamples:
     var
@@ -432,10 +433,10 @@ iterator pairs*[T](v: Vector[T]): (int, T) =
     v.assign(3, 5)
 
     for idx, elem in v:
-      sum += idx + elem
+      sum += idx.int + elem
     doAssert sum == 18
   #
-  for idx in 0 ..< v.len():
+  for idx in 0.SizeType ..< v.len():
     yield (idx, v[idx])
 
 # To and from seq
@@ -482,7 +483,7 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
     result = "v[]"
   else:
     result = "v["
-    for idx in 0 ..< v.size()-1:
+    for idx in 0.SizeType ..< v.size()-1:
       result.add($v[idx] & ", ")
     result.add($v.last() & "]")
 
@@ -496,8 +497,8 @@ when isMainModule:
         v2 = newVector[int](10)
 
     test "size/len":
-      check v1.size() == 0
-      check v2.len() == 10
+      check v1.size() == 0.SizeType
+      check v2.len() == 10.SizeType
 
     test "empty":
       check v1.empty() == true
@@ -510,22 +511,22 @@ when isMainModule:
 
     test "push/add, pop, front/first, back/last":
       v.pushBack(100)
-      check v.size() == 1
+      check v.len() == 1.SizeType
 
       v.add(200)
-      check v.size() == 2
+      check v.len() == 2.SizeType
 
       v.popBack()
-      check v.size() == 1
+      check v.len() == 1.SizeType
 
       v.add(300)
       v.add(400)
       v.add(500)
 
-      for idx in 0 ..< v.len():
+      for idx in 0.SizeType ..< v.len():
         echo &"  v[{idx}] = {v[idx]}"
 
-      check v.size() == 4
+      check v.len() == 4.SizeType
 
       check v.first() == 100
       check v.front() == 100

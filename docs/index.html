@@ -106,6 +106,8 @@ function main() {
     title="VectorIter[T] {.importcpp: &quot;std::vector&lt;\&apos;0&gt;::iterator&quot;.} = object"><wbr />Vector<wbr />Iter<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#VectorConstIter"
     title="VectorConstIter[T] {.importcpp: &quot;std::vector&lt;\&apos;0&gt;::const_iterator&quot;.} = object"><wbr />Vector<wbr />Const<wbr />Iter<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#SizeType"
+    title="SizeType = uint"><wbr />Size<wbr />Type<span class="attachedType"></span></a></li>
 
   </ul>
 </li>
@@ -114,10 +116,10 @@ function main() {
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#newVector"
     title="newVector[T](): Vector[T]"><wbr />new<wbr />Vector<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#newVector%2Cint"
-    title="newVector[T](size: int): Vector[T]"><wbr />new<wbr />Vector<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#newVector%2CSizeType"
+    title="newVector[T](size: SizeType): Vector[T]"><wbr />new<wbr />Vector<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#len%2CVector"
-    title="len(v: Vector): int"><wbr />len<span class="attachedType"></span></a></li>
+    title="len(v: Vector): SizeType"><wbr />len<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#empty%2CVector"
     title="empty(v: Vector): bool"><wbr />empty<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#add%2CVector%5BT%5D%2CT"
@@ -128,12 +130,12 @@ function main() {
     title="first[T](v: Vector[T]): T"><wbr />first<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#last%2CVector%5BT%5D"
     title="last[T](v: Vector[T]): T"><wbr />last<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2Cint"
-    title="`[]`[T](v: Vector[T]; idx: int): T"><wbr />`[]`<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2Cint_2"
-    title="`[]`[T](v: var Vector[T]; idx: int): var T"><wbr />`[]`<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#assign%2CVector%5BT%5D%2Cint%2CT"
-    title="assign[T](v: var Vector[T]; num: int; val: T)"><wbr />assign<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2CSizeType"
+    title="`[]`[T](v: Vector[T]; idx: SizeType): T"><wbr />`[]`<span class="attachedType">SizeType</span></a></li>
+  <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2CSizeType_2"
+    title="`[]`[T](v: var Vector[T]; idx: SizeType): var T"><wbr />`[]`<span class="attachedType">SizeType</span></a></li>
+  <li><a class="reference" href="#assign%2CVector%5BT%5D%2CSizeType%2CT"
+    title="assign[T](v: var Vector[T]; num: SizeType; val: T)"><wbr />assign<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#%3D%3D%2CVector%5BT%5D%2CVector%5BT%5D"
     title="`==`[T](a: Vector[T]; b: Vector[T]): bool"><wbr />`==`<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#%21%3D%2CVector%5BT%5D%2CVector%5BT%5D"
@@ -160,20 +162,21 @@ function main() {
     title="cEnd[T](v: Vector[T]): VectorConstIter[T]"><wbr />c<wbr />End<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2CT"
     title="insert[T](v: var Vector[T]; pos: VectorConstIter[T]; val: T): VectorIter[T]"><wbr />insert<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2Cint%2CT"
-    title="insert[T](v: var Vector[T]; pos: VectorConstIter[T]; count: int; val: T): VectorIter[T]"><wbr />insert<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2CSizeType%2CT"
+    title="insert[T](v: var Vector[T]; pos: VectorConstIter[T]; count: SizeType; val: T): VectorIter[
+    T]"><wbr />insert<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2CVectorConstIter%5BT%5D%2CVectorConstIter%5BT%5D"
     title="insert[T](v: var Vector[T]; pos, first, last: VectorConstIter[T]): VectorIter[T]"><wbr />insert<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#size%2CVector"
-    title="size(v: Vector): int"><wbr />size<span class="attachedType"></span></a></li>
+    title="size(v: Vector): SizeType"><wbr />size<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#pushBack%2CVector%5BT%5D%2CT"
     title="pushBack[T](v: var Vector[T]; elem: T)"><wbr />push<wbr />Back<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#front%2CVector%5BT%5D"
     title="front[T](v: Vector[T]): T"><wbr />front<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#back%2CVector%5BT%5D"
     title="back[T](v: Vector[T]): T"><wbr />back<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#%5B%5D%3D%2CVector%5BT%5D%2Cint%2CT"
-    title="`[]=`[T](v: var Vector[T]; idx: int; val: T)"><wbr />`[]=`<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#%5B%5D%3D%2CVector%5BT%5D%2CSizeType%2CT"
+    title="`[]=`[T](v: var Vector[T]; idx: SizeType; val: T)"><wbr />`[]=`<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#toSeq%2CVector%5BT%5D"
     title="toSeq[T](v: Vector[T]): seq[T]"><wbr />to<wbr />Seq<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#toVector%2CopenArray%5BT%5D"
@@ -189,7 +192,7 @@ function main() {
       <li><a class="reference" href="#items.i%2CVector%5BT%5D"
     title="items[T](v: Vector[T]): T"><wbr />items<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#pairs.i%2CVector%5BT%5D"
-    title="pairs[T](v: Vector[T]): (int, T)"><wbr />pairs<span class="attachedType"></span></a></li>
+    title="pairs[T](v: Vector[T]): (SizeType, T)"><wbr />pairs<span class="attachedType">SizeType</span></a></li>
 
   </ul>
 </li>
@@ -233,6 +236,13 @@ function main() {
 
 
 </dd>
+<a id="SizeType"></a>
+<dt><pre><a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a> <span class="Other">=</span> <span class="Identifier">uint</span></pre></dt>
+<dd>
+
+
+
+</dd>
 
 </dl></div>
 <div class="section" id="12">
@@ -246,16 +256,16 @@ function main() {
 
 
 </dd>
-<a id="newVector,int"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#newVector%2Cint"><span class="Identifier">newVector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">size</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;std::vector&lt;\'*0&gt;(#)&quot;</span><span class="Other">,</span>
-                                      <span class="Identifier">constructor</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="newVector,SizeType"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#newVector%2CSizeType"><span class="Identifier">newVector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">size</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;std::vector&lt;\'*0&gt;(#)&quot;</span><span class="Other">,</span>
+    <span class="Identifier">constructor</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 
 
 </dd>
 <a id="len,Vector"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#len%2CVector"><span class="Identifier">len</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#.size()&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#len%2CVector"><span class="Identifier">len</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#.size()&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 <p>Return the number of elements in the Vector.</p>
@@ -341,8 +351,8 @@ Remove the last element of the Vector. This proc does not return anything.<pre c
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">last</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">back</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre>
 
 </dd>
-<a id="[],Vector[T],int"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2Cint"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="[],Vector[T],SizeType"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2CSizeType"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 Retrieve the value at immutable <tt class="docutils literal"><span class="pre">v[idx]</span></tt> to an immutable variable.<pre class="listing"><span class="Keyword">var</span>
@@ -354,8 +364,9 @@ Retrieve the value at immutable <tt class="docutils literal"><span class="pre">v
 <span class="Identifier">doAssert</span> <span class="Identifier">v2</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">]</span> <span class="Operator">==</span> <span class="CharLit">'a'</span></pre>
 
 </dd>
-<a id="[],Vector[T],int_2"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2Cint_2"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="[],Vector[T],SizeType_2"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2CSizeType_2"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span>
+    <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 Retrieve the value at mutable <tt class="docutils literal"><span class="pre">v[idx]</span></tt> to a mutable variable.<pre class="listing"><span class="Keyword">var</span>
@@ -367,8 +378,8 @@ Retrieve the value at mutable <tt class="docutils literal"><span class="pre">v[i
 <span class="Identifier">doAssert</span> <span class="Identifier">vElem</span> <span class="Operator">==</span> <span class="CharLit">'a'</span></pre>
 
 </dd>
-<a id="assign,Vector[T],int,T"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#assign%2CVector%5BT%5D%2Cint%2CT"><span class="Identifier">assign</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">num</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#.assign(@)&quot;</span><span class="Other">,</span>
+<a id="assign,Vector[T],SizeType,T"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#assign%2CVector%5BT%5D%2CSizeType%2CT"><span class="Identifier">assign</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">num</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#.assign(@)&quot;</span><span class="Other">,</span>
     <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
@@ -558,8 +569,8 @@ Insert an element before the specified position.<pre class="listing"><span class
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">toSeq</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="CharLit">'c'</span><span class="Punctuation">,</span> <span class="CharLit">'a'</span><span class="Punctuation">,</span> <span class="CharLit">'b'</span><span class="Punctuation">]</span></pre>
 
 </dd>
-<a id="insert,Vector[T],VectorConstIter[T],int,T"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2Cint%2CT"><span class="Identifier">insert</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">pos</span><span class="Other">:</span> <a href="std_vector.html#VectorConstIter"><span class="Identifier">VectorConstIter</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">count</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#VectorIter"><span class="Identifier">VectorIter</span></a><span class="Other">[</span>
+<a id="insert,Vector[T],VectorConstIter[T],SizeType,T"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#insert%2CVector%5BT%5D%2CVectorConstIter%5BT%5D%2CSizeType%2CT"><span class="Identifier">insert</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">pos</span><span class="Other">:</span> <a href="std_vector.html#VectorConstIter"><span class="Identifier">VectorConstIter</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">count</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#VectorIter"><span class="Identifier">VectorIter</span></a><span class="Other">[</span>
     <span class="Identifier">T</span><span class="Other">]</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;insert&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
@@ -583,7 +594,7 @@ Insert elements from range <tt class="docutils literal"><span class="pre">first<
 
 </dd>
 <a id="size,Vector"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#size%2CVector"><span class="Identifier">size</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span></span><span class="Other">.}</span></span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#size%2CVector"><span class="Identifier">size</span></a><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">)</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 Alias for <a class="reference external" href="#len,Vector">len proc</a>.
@@ -610,8 +621,8 @@ Alias for <a class="reference external" href="#first,Vector[T]">first proc</a>.
 Alias for <a class="reference external" href="#last,Vector[T]">last proc</a>.
 
 </dd>
-<a id="[]=,Vector[T],int,T"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%3D%2CVector%5BT%5D%2Cint%2CT"><span class="Identifier">`[]=`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="[]=,Vector[T],SizeType,T"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%3D%2CVector%5BT%5D%2CSizeType%2CT"><span class="Identifier">`[]=`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">;</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
 Set the value at <tt class="docutils literal"><span class="pre">v[idx]</span></tt> to the specified value <tt class="docutils literal"><span class="pre">val</span></tt>.
@@ -680,7 +691,7 @@ Iterate over all the elements in Vector <tt class="docutils literal"><span class
 
 </dd>
 <a id="pairs.i,Vector[T]"></a>
-<dt><pre><span class="Keyword">iterator</span> <a href="#pairs.i%2CVector%5BT%5D"><span class="Identifier">pairs</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">T</span><span class="Other">)</span></pre></dt>
+<dt><pre><span class="Keyword">iterator</span> <a href="#pairs.i%2CVector%5BT%5D"><span class="Identifier">pairs</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">,</span> <span class="Identifier">T</span><span class="Other">)</span></pre></dt>
 <dd>
 
 Iterate over <tt class="docutils literal"><span class="pre">(index, value)</span></tt> for all the elements in Vector <tt class="docutils literal"><span class="pre">v</span></tt>.
@@ -690,7 +701,7 @@ Iterate over <tt class="docutils literal"><span class="pre">(index, value)</span
   <span class="Identifier">sum</span><span class="Other">:</span> <span class="Identifier">int</span>
 <span class="Identifier">v</span><span class="Other">.</span><span class="Identifier">assign</span><span class="Other">(</span><span class="DecNumber">3</span><span class="Other">,</span> <span class="DecNumber">5</span><span class="Other">)</span>
 <span class="Keyword">for</span> <span class="Identifier">idx</span><span class="Other">,</span> <span class="Identifier">elem</span> <span class="Keyword">in</span> <span class="Identifier">v</span><span class="Other">:</span>
-  <span class="Identifier">sum</span> <span class="Operator">+=</span> <span class="Identifier">idx</span> <span class="Operator">+</span> <span class="Identifier">elem</span>
+  <span class="Identifier">sum</span> <span class="Operator">+=</span> <span class="Identifier">idx</span><span class="Other">.</span><span class="Identifier">int</span> <span class="Operator">+</span> <span class="Identifier">elem</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">sum</span> <span class="Operator">==</span> <span class="DecNumber">18</span></pre>
 
 </dd>
@@ -717,7 +728,7 @@ Implicitly convert mutable C++ iterator to immutable C++ iterator.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-01-13 21:08:33 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-01-13 21:26:31 UTC</small>
       </div>
     </div>
   </div>
