@@ -2,6 +2,8 @@
 
 [[https://travis-ci.org/kaushalmodi/std_vector][https://travis-ci.org/kaushalmodi/std_vector.svg?branch=master]]
 
+[[https://kaushalmodi.github.io/std_vector/][Documentation]]
+
 * What is this?
 Nim wrapper to map with the C++ ~std::vector~ library.
 
