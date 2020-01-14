@@ -126,14 +126,12 @@ function main() {
     title="add[T](v: var Vector[T]; elem: T)"><wbr />add<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#popBack%2CVector%5BT%5D"
     title="popBack[T](v: var Vector[T])"><wbr />pop<wbr />Back<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#first%2CVector%5BT%5D"
-    title="first[T](v: Vector[T]): T"><wbr />first<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#last%2CVector%5BT%5D"
-    title="last[T](v: Vector[T]): T"><wbr />last<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2CSizeType"
-    title="`[]`[T](v: Vector[T]; idx: SizeType): T"><wbr />`[]`<span class="attachedType">SizeType</span></a></li>
-  <li><a class="reference" href="#%5B%5D%2CVector%5BT%5D%2CSizeType_2"
-    title="`[]`[T](v: var Vector[T]; idx: SizeType): var T"><wbr />`[]`<span class="attachedType">SizeType</span></a></li>
+    title="`[]`[T](v: Vector[T]; idx: SizeType): var T"><wbr />`[]`<span class="attachedType">SizeType</span></a></li>
+  <li><a class="reference" href="#first%2CVector%5BT%5D"
+    title="first[T](v: Vector[T]): var T"><wbr />first<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#last%2CVector%5BT%5D"
+    title="last[T](v: Vector[T]): var T"><wbr />last<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#assign%2CVector%5BT%5D%2CSizeType%2CT"
     title="assign[T](v: var Vector[T]; num: SizeType; val: T)"><wbr />assign<span class="attachedType">SizeType</span></a></li>
   <li><a class="reference" href="#%3D%3D%2CVector%5BT%5D%2CVector%5BT%5D"
@@ -321,11 +319,27 @@ Remove the last element of the Vector. This proc does not return anything.<pre c
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">len</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">0</span></pre>
 
 </dd>
-<a id="first,Vector[T]"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#first%2CVector%5BT%5D"><span class="Identifier">first</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;front&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="[],Vector[T],SizeType"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2CSizeType"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-<p>Return the first element of the Vector.</p>
+Return the reference to <tt class="docutils literal"><span class="pre">v[idx]</span></tt>.<pre class="listing"><span class="Keyword">var</span>
+  <span class="Identifier">v</span> <span class="Operator">=</span> <span class="Identifier">newVector</span><span class="Punctuation">[</span><span class="Identifier">char</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="CharLit">'a'</span><span class="Punctuation">)</span>
+<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="CharLit">'b'</span><span class="Punctuation">)</span>
+<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="CharLit">'c'</span><span class="Punctuation">)</span>
+
+<span class="Identifier">v</span><span class="Punctuation">[</span><span class="DecNumber">1</span><span class="Punctuation">]</span> <span class="Operator">=</span> <span class="CharLit">'z'</span>
+<span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">]</span> <span class="Operator">==</span> <span class="CharLit">'a'</span>
+<span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Punctuation">[</span><span class="DecNumber">1</span><span class="Punctuation">]</span> <span class="Operator">==</span> <span class="CharLit">'z'</span>
+<span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Punctuation">[</span><span class="DecNumber">2</span><span class="Punctuation">]</span> <span class="Operator">==</span> <span class="CharLit">'c'</span></pre>
+
+</dd>
+<a id="first,Vector[T]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#first%2CVector%5BT%5D"><span class="Identifier">first</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;front&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+<p>Return the reference to the first element of the Vector.</p>
 <p>This has an alias proc <tt class="docutils literal"><span class="pre">front</span></tt>.</p>
 <pre class="listing"><span class="Keyword">var</span>
   <span class="Identifier">v</span> <span class="Operator">=</span> <span class="Identifier">newVector</span><span class="Punctuation">[</span><span class="Identifier">int</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
@@ -333,14 +347,17 @@ Remove the last element of the Vector. This proc does not return anything.<pre c
 <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="DecNumber">100</span><span class="Punctuation">)</span>
 <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="DecNumber">200</span><span class="Punctuation">)</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">first</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">100</span>
+
+<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">first</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">=</span> <span class="DecNumber">300</span>
+<span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">first</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">300</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">first</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">front</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre>
 
 </dd>
 <a id="last,Vector[T]"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#last%2CVector%5BT%5D"><span class="Identifier">last</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;back&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#last%2CVector%5BT%5D"><span class="Identifier">last</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;back&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-<p>Return the first element of the Vector.</p>
+<p>Return the reference to the last element of the Vector.</p>
 <p>This has an alias proc <tt class="docutils literal"><span class="pre">back</span></tt>.</p>
 <pre class="listing"><span class="Keyword">var</span>
   <span class="Identifier">v</span> <span class="Operator">=</span> <span class="Identifier">newVector</span><span class="Punctuation">[</span><span class="Identifier">int</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
@@ -348,34 +365,10 @@ Remove the last element of the Vector. This proc does not return anything.<pre c
 <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="DecNumber">100</span><span class="Punctuation">)</span>
 <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="DecNumber">200</span><span class="Punctuation">)</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">last</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">200</span>
+
+<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">last</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">=</span> <span class="DecNumber">300</span>
+<span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">last</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">300</span>
 <span class="Identifier">doAssert</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">last</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">back</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre>
-
-</dd>
-<a id="[],Vector[T],SizeType"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2CSizeType"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span> <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
-<dd>
-
-Retrieve the value at immutable <tt class="docutils literal"><span class="pre">v[idx]</span></tt> to an immutable variable.<pre class="listing"><span class="Keyword">var</span>
-  <span class="Identifier">v1</span> <span class="Operator">=</span> <span class="Identifier">newVector</span><span class="Punctuation">[</span><span class="Identifier">char</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
-<span class="Identifier">v1</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="CharLit">'a'</span><span class="Punctuation">)</span>
-
-<span class="Keyword">let</span>
-  <span class="Identifier">v2</span> <span class="Operator">=</span> <span class="Identifier">v1</span>
-<span class="Identifier">doAssert</span> <span class="Identifier">v2</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">]</span> <span class="Operator">==</span> <span class="CharLit">'a'</span></pre>
-
-</dd>
-<a id="[],Vector[T],SizeType_2"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CVector%5BT%5D%2CSizeType_2"><span class="Identifier">`[]`</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">v</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="std_vector.html#Vector"><span class="Identifier">Vector</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">idx</span><span class="Other">:</span> <a href="std_vector.html#SizeType"><span class="Identifier">SizeType</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">var</span> <span class="Identifier">T</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">importcpp</span><span class="Other">:</span> <span class="StringLit">&quot;#[#]&quot;</span><span class="Other">,</span>
-    <span class="Identifier">header</span><span class="Other">:</span> <span class="StringLit">&quot;&lt;vector&gt;&quot;</span></span><span class="Other">.}</span></span></pre></dt>
-<dd>
-
-Retrieve the value at mutable <tt class="docutils literal"><span class="pre">v[idx]</span></tt> to a mutable variable.<pre class="listing"><span class="Keyword">var</span>
-  <span class="Identifier">v</span> <span class="Operator">=</span> <span class="Identifier">newVector</span><span class="Punctuation">[</span><span class="Identifier">char</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
-  <span class="Identifier">vElem</span><span class="Punctuation">:</span> <span class="Identifier">char</span>
-
-<span class="Identifier">v</span><span class="Operator">.</span><span class="Identifier">add</span><span class="Punctuation">(</span><span class="CharLit">'a'</span><span class="Punctuation">)</span>
-<span class="Identifier">vElem</span> <span class="Operator">=</span> <span class="Identifier">v</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">]</span>
-<span class="Identifier">doAssert</span> <span class="Identifier">vElem</span> <span class="Operator">==</span> <span class="CharLit">'a'</span></pre>
 
 </dd>
 <a id="assign,Vector[T],SizeType,T"></a>
@@ -728,7 +721,7 @@ Implicitly convert mutable C++ iterator to immutable C++ iterator.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-01-13 21:32:26 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-01-14 02:17:35 UTC</small>
       </div>
     </div>
   </div>

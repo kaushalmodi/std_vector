@@ -83,9 +83,26 @@ proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".}
   ##    v.popBack()
   ##    doAssert v.len() == 0
 
+# https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
+proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
+  ## Return the reference to ``v[idx]``.
+  ##
+  ## .. code-block::
+  ##    :test:
+  ##    var
+  ##      v = newVector[char]()
+  ##    v.add('a')
+  ##    v.add('b')
+  ##    v.add('c')
+  ##
+  ##    v[1] = 'z'
+  ##    doAssert v[0] == 'a'
+  ##    doAssert v[1] == 'z'
+  ##    doAssert v[2] == 'c'
+
 # https://en.cppreference.com/w/cpp/container/vector/front
-proc first*[T](v: Vector[T]): T {.importcpp: "front".}
-  ## Return the first element of the Vector.
+proc first*[T](v: Vector[T]): var T {.importcpp: "front".}
+  ## Return the reference to the first element of the Vector.
   ##
   ## This has an alias proc ``front``.
   ##
@@ -97,11 +114,14 @@ proc first*[T](v: Vector[T]): T {.importcpp: "front".}
   ##    v.add(100)
   ##    v.add(200)
   ##    doAssert v.first() == 100
+  ##
+  ##    v.first() = 300
+  ##    doAssert v.first() == 300
   ##    doAssert v.first() == v.front()
 
 # http://www.cplusplus.com/reference/vector/vector/back/
-proc last*[T](v: Vector[T]): T {.importcpp: "back".}
-  ## Return the first element of the Vector.
+proc last*[T](v: Vector[T]): var T {.importcpp: "back".}
+  ## Return the reference to the last element of the Vector.
   ##
   ## This has an alias proc ``back``.
   ##
@@ -113,34 +133,10 @@ proc last*[T](v: Vector[T]): T {.importcpp: "back".}
   ##    v.add(100)
   ##    v.add(200)
   ##    doAssert v.last() == 200
+  ##
+  ##    v.last() = 300
+  ##    doAssert v.last() == 300
   ##    doAssert v.last() == v.back()
-
-# https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc `[]`*[T](v: Vector[T], idx: SizeType): T {.importcpp: "#[#]".}
-  ## Retrieve the value at immutable ``v[idx]`` to an immutable variable.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v1 = newVector[char]()
-  ##    v1.add('a')
-  ##
-  ##    let
-  ##      v2 = v1
-  ##    doAssert v2[0] == 'a'
-
-proc `[]`*[T](v: var Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
-  ## Retrieve the value at mutable ``v[idx]`` to a mutable variable.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[char]()
-  ##      vElem: char
-  ##
-  ##    v.add('a')
-  ##    vElem = v[0]
-  ##    doAssert vElem == 'a'
 
 # https://en.cppreference.com/w/cpp/container/vector/assign
 proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(@)".}
@@ -529,10 +525,12 @@ when isMainModule:
       check v.len() == 4.SizeType
 
       check v.first() == 100
-      check v.front() == 100
+      v.first() = 1
+      check v.front() == 1
 
       check v.last() == 500
-      check v.back() == 500
+      v.last() = 5
+      check v.back() == 5
 
   suite "iterators, $":
     setup:

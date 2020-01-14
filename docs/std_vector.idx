@@ -9,10 +9,9 @@ len	index.html#len,Vector	std_vector: len(v: Vector): SizeType
 empty	index.html#empty,Vector	std_vector: empty(v: Vector): bool	
 add	index.html#add,Vector[T],T	std_vector: add[T](v: var Vector[T]; elem: T)	
 popBack	index.html#popBack,Vector[T]	std_vector: popBack[T](v: var Vector[T])	
-first	index.html#first,Vector[T]	std_vector: first[T](v: Vector[T]): T	
-last	index.html#last,Vector[T]	std_vector: last[T](v: Vector[T]): T	
-`[]`	index.html#[],Vector[T],SizeType	std_vector: `[]`[T](v: Vector[T]; idx: SizeType): T	
-`[]`	index.html#[],Vector[T],SizeType_2	std_vector: `[]`[T](v: var Vector[T]; idx: SizeType): var T	
+`[]`	index.html#[],Vector[T],SizeType	std_vector: `[]`[T](v: Vector[T]; idx: SizeType): var T	
+first	index.html#first,Vector[T]	std_vector: first[T](v: Vector[T]): var T	
+last	index.html#last,Vector[T]	std_vector: last[T](v: Vector[T]): var T	
 assign	index.html#assign,Vector[T],SizeType,T	std_vector: assign[T](v: var Vector[T]; num: SizeType; val: T)	
 `==`	index.html#==,Vector[T],Vector[T]	std_vector: `==`[T](a: Vector[T]; b: Vector[T]): bool	
 `!=`	index.html#!=,Vector[T],Vector[T]	std_vector: `!=`[T](a: Vector[T]; b: Vector[T]): bool	
