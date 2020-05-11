@@ -1,32 +1,40 @@
-sudo: required
-
-os:
-  - linux
-
 language: cpp
-dist: bionic
-
-matrix:
-  include:
-    # Running this using only "nim devel" because the stable version (1.2.0 as of today)
-    # is lacking the --backend switch ( https://github.com/nim-lang/Nim/pull/14278 ).
-    # - os: linux
-    #   env: CHANNEL=stable
-    #   compiler: gcc
-
-    - os: linux
-      env: CHANNEL=devel
-      compiler: gcc
 
 cache:
   directories:
-    - "${HOME}/.choosenim"
+    - nim
+
+env:
+  global:
+    - NIMREPO="https://github.com/nim-lang/Nim"
+    - NIMVER="$(git ls-remote ${NIMREPO} devel | cut -f 1)"
+    - NIMDIR="${TRAVIS_BUILD_DIR}/nim/${NIMVER}"
 
 install:
-  - curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
-  - sh init.sh -y
-  - export PATH=$HOME/.nimble/bin:$PATH
-  - choosenim $CHANNEL
+  - echo "NIMDIR = ${NIMDIR}"
+  - |
+    if [[ ! -f "${NIMDIR}/bin/nim" ]]
+    then
+      rm -rf nim
+      mkdir -p nim
+      git clone --single-branch --branch devel --depth=1 "${NIMREPO}" "${NIMDIR}"
+      cd "${NIMDIR}" || exit
+      [ -d csources ] || git clone --depth 1 https://github.com/nim-lang/csources.git
+      cd csources
+      sh build.sh
+      cd ..
+      ./bin/nim c koch
+      ./koch boot -d:release
+      # After building nim, wipe csources to save on cache space.
+      rm -rf csources
+    fi
+  # - |
+  #   if [[ ! -f "${NIMDIR}/bin/nimble" ]]
+  #   then
+  #     cd "${NIMDIR}" || exit
+  #     ./koch nimble
+  #   fi
+  - export PATH="${NIMDIR}/bin:${PATH}"
 
 script:
   - cd "${TRAVIS_BUILD_DIR}"
