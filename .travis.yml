@@ -8,11 +8,11 @@ dist: bionic
 
 matrix:
   include:
-    # Build and test against the master (stable) and devel branches of Nim
-    # Build and test using both gcc and clang
-    - os: linux
-      env: CHANNEL=stable
-      compiler: gcc
+    # Running this using only "nim devel" because the stable version (1.2.0 as of today)
+    # is lacking the --backend switch ( https://github.com/nim-lang/Nim/pull/14278 ).
+    # - os: linux
+    #   env: CHANNEL=stable
+    #   compiler: gcc
 
     - os: linux
       env: CHANNEL=devel
@@ -29,7 +29,21 @@ install:
   - choosenim $CHANNEL
 
 script:
-  - nim testAll
+  - cd "${TRAVIS_BUILD_DIR}"
+  - nim -v
+  - nim pullConfig
+  - nim test
+  - nim docs
+
+deploy:
+  provider: pages
+  # local-dir *has* to be a relative path from the repo root.
+  local-dir: "public"
+  skip-cleanup: true
+  github-token: "${GITHUB_OAUTH_TOKEN}"
+  keep-history: false
+  on:
+    branch: master
 
 notifications:
   email:

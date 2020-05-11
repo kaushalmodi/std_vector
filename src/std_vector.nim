@@ -28,7 +28,7 @@ proc len*(v: Vector): SizeType {.importcpp: "#.size()".}
   ## This has an alias proc ``size``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##    doAssert v.size() == 0
@@ -42,7 +42,7 @@ proc empty*(v: Vector): bool {.importcpp: "empty".}
   ## Check if the Vector is empty i.e. has zero elements.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##    doAssert v.empty()
@@ -57,7 +57,7 @@ proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".}
   ## This has an alias proc ``pushBack``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##    doAssert v.len() == 0
@@ -72,7 +72,7 @@ proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".}
   ## This proc does not return anything.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##    doAssert v.len() == 0
@@ -88,7 +88,7 @@ proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
   ## Return the reference to ``v[idx]``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[char]()
   ##    v.add('a')
@@ -107,7 +107,7 @@ proc first*[T](v: Vector[T]): var T {.importcpp: "front".}
   ## This has an alias proc ``front``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##
@@ -126,7 +126,7 @@ proc last*[T](v: Vector[T]): var T {.importcpp: "back".}
   ## This has an alias proc ``back``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = newVector[int]()
   ##
@@ -143,7 +143,7 @@ proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(
   ## Return a Vector with ``num`` elements assigned to the specified value ``val``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v: Vector[float]
   ##
@@ -162,7 +162,7 @@ proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".}
   ## equal with the element in rhs at the same position.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##      v2 = v1
@@ -174,7 +174,7 @@ proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".}
   ## in lhs does not compare equal with the element in rhs at the same position.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##    var
@@ -191,7 +191,7 @@ proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
   ## less than ``b``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##    var
@@ -209,7 +209,7 @@ proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
   ## less than or equal to ``b``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##    var
@@ -227,7 +227,7 @@ proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
   ## greater than ``b``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##    var
@@ -245,7 +245,7 @@ proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
   ## greater than or equal to ``b``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @[1, 2, 3].toVector()
   ##    var
@@ -264,7 +264,7 @@ proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "
   ## Return an updated iterator pointing to the input iterator plus the specified ``offset``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1.0, 2.0, 3.0].toVector()
   ##
@@ -278,7 +278,7 @@ proc `-`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "
   ## Return an updated iterator pointing to the input iterator minus the specified ``offset``.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1.0, 2.0, 3.0].toVector()
   ##
@@ -293,7 +293,7 @@ proc begin*[T](v: Vector[T]): VectorIter[T] {.importcpp: "begin".}
   ## Return a mutable C++ iterator pointing to the beginning position of the Vector.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1, 2, 3].toVector()
   ##    discard v.insert(v.begin(), 100)
@@ -303,7 +303,7 @@ proc cBegin*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cbegin".}
   ## Return an immutable C++ iterator pointing to the beginning position of the Vector.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1, 2, 3].toVector()
   ##    discard v.insert(v.cBegin(), 100)
@@ -314,7 +314,7 @@ proc `end`*[T](v: Vector[T]): VectorIter[T] {.importcpp: "end".}
   ## Return a mutable C++ iterator pointing to *after* the end position of the Vector.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1, 2, 3].toVector()
   ##    discard v.insert(v.`end`(), 100)
@@ -324,7 +324,7 @@ proc cEnd*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cend".}
   ## Return an immutable C++ iterator pointing to *after* the end position of the Vector.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @[1, 2, 3].toVector()
   ##    discard v.insert(v.cEnd(), 100)
@@ -334,7 +334,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T
   ## Insert an element before the specified position.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @['a', 'b'].toVector()
   ##    discard v.insert(v.cBegin(), 'c')
@@ -344,7 +344,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val:
   ## Insert ``count`` copies of element  before the specified position.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    var
   ##      v = @['a', 'b'].toVector()
   ##    discard v.insert(v.cBegin(), 3, 'c')
@@ -354,7 +354,7 @@ proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorI
   ## Insert elements from range ``first`` ..< ``last`` before the specified position.
   ##
   ## .. code-block::
-  ##    :test:
+  ##    :test: "nim cpp -r $1"
   ##    let
   ##      v1 = @['a', 'b'].toVector()
   ##    var
