@@ -23,8 +23,11 @@ install:
       cd csources
       sh build.sh
       cd ..
-      ./bin/nim c --skipUserCfg:on --skipParentCfg:on --skipProjCfg:on koch
+      # Don't let the --backend switch in this repo's config.nims affect the nim build.
+      mv "${TRAVIS_BUILD_DIR}/config.nims" "${TRAVIS_BUILD_DIR}/config.nims.bkp"
+      ./bin/nim c koch
       ./koch boot -d:release
+      mv "${TRAVIS_BUILD_DIR}/config.nims.bkp" "${TRAVIS_BUILD_DIR}/config.nims"
       # After building nim, wipe csources to save on cache space.
       rm -rf csources
     fi
