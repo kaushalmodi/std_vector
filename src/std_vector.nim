@@ -354,6 +354,18 @@ proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorI
     discard v2.insert(v2.cBegin(), v1.cBegin(), v1.cEnd())
     doAssert v2.toSeq() == @['a', 'b']
 
+proc swap*[T](v1, v2: var Vector[T]) {.importcpp: "swap".} =
+  ## Swap the contents of vectors `v1` and `v2`.
+  ##
+  ## https://en.cppreference.com/w/cpp/container/vector/swap
+  runnableExamples:
+    var
+      v1 = @[1, 2, 3].toVector()
+      v2 = @[7, 8, 9].toVector()
+    v1.swap(v2)
+    doAssert v1.toSeq() == @[7, 8, 9]
+    doAssert v2.toSeq() == @[1, 2, 3]
+
 {.pop.} # {.push header: "<vector>".}
 
 
@@ -689,3 +701,14 @@ when isMainModule:
     test "insert elem before the last element":
       discard v.insert(v.cEnd()-1, 9)
       check v == @[1, 2, 9, 3].toVector()
+
+  suite "two vectors":
+    setup:
+      var
+        v1 = @['a', 'b', 'c'].toVector()
+        v2 = @['w', 'x', 'y', 'z'].toVector()
+
+    test "swap":
+      v1.swap(v2)
+      check v1 == @['w', 'x', 'y', 'z'].toVector()
+      check v2 == @['a', 'b', 'c'].toVector()
