@@ -25,7 +25,7 @@ proc newVector*[T](size: SizeType): Vector[T] {.importcpp: "std::vector<'*0>(#)"
 proc len*(v: Vector): SizeType {.importcpp: "#.size()".}
   ## Return the number of elements in the Vector.
   ##
-  ## This has an alias proc ``size``.
+  ## This has an alias proc `size`.
   ##
   ## .. code-block::
   ##    :test:
@@ -54,7 +54,7 @@ proc empty*(v: Vector): bool {.importcpp: "empty".}
 proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".}
   ## Append a new element to the end of the Vector.
   ##
-  ## This has an alias proc ``pushBack``.
+  ## This has an alias proc `pushBack`.
   ##
   ## .. code-block::
   ##    :test:
@@ -85,7 +85,7 @@ proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".}
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
-  ## Return the reference to ``v[idx]``.
+  ## Return the reference to `v[idx]`.
   ##
   ## .. code-block::
   ##    :test:
@@ -104,7 +104,7 @@ proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
 proc first*[T](v: Vector[T]): var T {.importcpp: "front".}
   ## Return the reference to the first element of the Vector.
   ##
-  ## This has an alias proc ``front``.
+  ## This has an alias proc `front`.
   ##
   ## .. code-block::
   ##    :test:
@@ -123,7 +123,7 @@ proc first*[T](v: Vector[T]): var T {.importcpp: "front".}
 proc last*[T](v: Vector[T]): var T {.importcpp: "back".}
   ## Return the reference to the last element of the Vector.
   ##
-  ## This has an alias proc ``back``.
+  ## This has an alias proc `back`.
   ##
   ## .. code-block::
   ##    :test:
@@ -140,7 +140,7 @@ proc last*[T](v: Vector[T]): var T {.importcpp: "back".}
 
 # https://en.cppreference.com/w/cpp/container/vector/assign
 proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(@)".}
-  ## Return a Vector with ``num`` elements assigned to the specified value ``val``.
+  ## Return a Vector with `num` elements assigned to the specified value `val`.
   ##
   ## .. code-block::
   ##    :test:
@@ -157,7 +157,7 @@ proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(
 # https://en.cppreference.com/w/cpp/container/vector/operator_cmp
 # Relational operators
 proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".}
-  ## Return ``true`` if the contents of lhs and rhs are equal, that is,
+  ## Return `true` if the contents of lhs and rhs are equal, that is,
   ## they have the same number of elements and each element in lhs compares
   ## equal with the element in rhs at the same position.
   ##
@@ -169,7 +169,7 @@ proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".}
   ##    doAssert v1 == v2
 
 proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".}
-  ## Return ``true`` if the contents of lhs and rhs are not equal, that is,
+  ## Return `true` if the contents of lhs and rhs are not equal, that is,
   ## either they do not have the same number of elements, or one of the elements
   ## in lhs does not compare equal with the element in rhs at the same position.
   ##
@@ -187,8 +187,8 @@ proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".}
   ##    doAssert v3 != v1
 
 proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
-  ## Return ``true`` if ``a`` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
-  ## less than ``b``.
+  ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
+  ## less than `b`.
   ##
   ## .. code-block::
   ##    :test:
@@ -205,8 +205,8 @@ proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
   ##    doAssert v2 < v1
 
 proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
-  ## Return ``true`` if ``a`` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
-  ## less than or equal to ``b``.
+  ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
+  ## less than or equal to `b`.
   ##
   ## .. code-block::
   ##    :test:
@@ -223,8 +223,8 @@ proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
   ##    doAssert v2 <= v1
 
 proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
-  ## Return ``true`` if ``a`` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
-  ## greater than ``b``.
+  ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
+  ## greater than `b`.
   ##
   ## .. code-block::
   ##    :test:
@@ -241,8 +241,8 @@ proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
   ##    doAssert v1 > v2
 
 proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
-  ## Return ``true`` if ``a`` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
-  ## greater than or equal to ``b``.
+  ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
+  ## greater than or equal to `b`.
   ##
   ## .. code-block::
   ##    :test:
@@ -261,7 +261,7 @@ proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
 # https://github.com/BigEpsilon/nim-cppstl/blob/master/src/cppstl/private/utils.nim
 # Iterator Arithmetic
 proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# + #"}
-  ## Return an updated iterator pointing to the input iterator plus the specified ``offset``.
+  ## Return an updated iterator pointing to the input iterator plus the specified `offset`.
   ##
   ## .. code-block::
   ##    :test:
@@ -275,7 +275,7 @@ proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "
   ##    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 2.5, 3.0]
 
 proc `-`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# - #"}
-  ## Return an updated iterator pointing to the input iterator minus the specified ``offset``.
+  ## Return an updated iterator pointing to the input iterator minus the specified `offset`.
   ##
   ## .. code-block::
   ##    :test:
@@ -341,7 +341,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T
   ##    doAssert v.toSeq() == @['c', 'a', 'b']
 
 proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val: T): VectorIter[T] {.importcpp: "insert".}
-  ## Insert ``count`` copies of element  before the specified position.
+  ## Insert `count` copies of element  before the specified position.
   ##
   ## .. code-block::
   ##    :test:
@@ -351,7 +351,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val:
   ##    doAssert v.toSeq() == @['c', 'c', 'c', 'a', 'b']
 
 proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorIter[T] {.importcpp: "insert".}
-  ## Insert elements from range ``first`` ..< ``last`` before the specified position.
+  ## Insert elements from range `first` ..< `last` before the specified position.
   ##
   ## .. code-block::
   ##    :test:
@@ -387,7 +387,7 @@ proc back*[T](v: Vector[T]): T {.inline.} =
 # Other procs
 
 proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
-  ## Set the value at ``v[idx]`` to the specified value ``val``.
+  ## Set the value at `v[idx]` to the specified value `val`.
   runnableExamples:
     var
       v = newVector[int](2)
@@ -404,7 +404,7 @@ proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
 # Iterators
 
 iterator items*[T](v: Vector[T]): T=
-  ## Iterate over all the elements in Vector ``v``.
+  ## Iterate over all the elements in Vector `v`.
   runnableExamples:
     var
       v: Vector[int]
@@ -420,7 +420,7 @@ iterator items*[T](v: Vector[T]): T=
     yield v[idx]
 
 iterator pairs*[T](v: Vector[T]): (SizeType, T) =
-  ## Iterate over ``(index, value)`` for all the elements in Vector ``v``.
+  ## Iterate over `(index, value)` for all the elements in Vector `v`.
   runnableExamples:
     var
       v: Vector[int]
@@ -464,8 +464,8 @@ proc toVector*[T](s: openArray[T]): Vector[T] =
 # Display the content of a Vector
 # https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L197
 proc `$`*[T](v: Vector[T]): string {.noinit.} =
-  ## The ``$`` operator for Vector type variables.
-  ## This is used internally when calling ``echo`` on a Vector type variable.
+  ## The `$` operator for Vector type variables.
+  ## This is used internally when calling `echo` on a Vector type variable.
   runnableExamples:
     var
       v = newVector[int]()
