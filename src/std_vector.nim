@@ -21,370 +21,324 @@ proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc newVector*[T](size: SizeType): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
 
-proc len*(v: Vector): SizeType {.importcpp: "#.size()".}
+proc len*(v: Vector): SizeType {.importcpp: "#.size()".} =
   ## Return the number of elements in the Vector.
   ##
   ## This has an alias proc `size`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/size
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##    doAssert v.size() == 0
-  ##
-  ##    v.add(100)
-  ##    v.add(200)
-  ##    doAssert v.len() == 2
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.size() == 0
 
-proc empty*(v: Vector): bool {.importcpp: "empty".}
+    v.add(100)
+    v.add(200)
+    doAssert v.len() == 2
+
+proc empty*(v: Vector): bool {.importcpp: "empty".} =
   ## Check if the Vector is empty i.e. has zero elements.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/empty
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##    doAssert v.empty()
-  ##
-  ##    v.add(100)
-  ##    doAssert not v.empty()
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.empty()
 
-proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".}
+    v.add(100)
+    doAssert not v.empty()
+
+proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".} =
   ## Append a new element to the end of the Vector.
   ##
   ## This has an alias proc `pushBack`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/push_back
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##    doAssert v.len() == 0
-  ##
-  ##    v.add(100)
-  ##    v.pushBack(200)
-  ##    doAssert v.len() == 2
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.len() == 0
 
-proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".}
+    v.add(100)
+    v.pushBack(200)
+    doAssert v.len() == 2
+
+proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".} =
   ## Remove the last element of the Vector.
   ## This proc does not return anything.
   ##
   ## https://www.cplusplus.com/reference/vector/vector/pop_back/
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##    doAssert v.len() == 0
-  ##
-  ##    v.add(100)
-  ##    doAssert v.len() == 1
-  ##
-  ##    v.popBack()
-  ##    doAssert v.len() == 0
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.len() == 0
+
+    v.add(100)
+    doAssert v.len() == 1
+
+    v.popBack()
+    doAssert v.len() == 0
 
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".}
+proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".} =
   ## Return the reference to `v[idx]`.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[char]()
-  ##    v.add('a')
-  ##    v.add('b')
-  ##    v.add('c')
-  ##
-  ##    v[1] = 'z'
-  ##    doAssert v[0] == 'a'
-  ##    doAssert v[1] == 'z'
-  ##    doAssert v[2] == 'c'
+  runnableExamples:
+    var
+      v = newVector[char]()
+    v.add('a')
+    v.add('b')
+    v.add('c')
 
-proc first*[T](v: Vector[T]): var T {.importcpp: "front".}
+    v[1] = 'z'
+    doAssert v[0] == 'a'
+    doAssert v[1] == 'z'
+    doAssert v[2] == 'c'
+
+proc first*[T](v: Vector[T]): var T {.importcpp: "front".} =
   ## Return the reference to the first element of the Vector.
   ##
   ## This has an alias proc `front`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/front
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##
-  ##    v.add(100)
-  ##    v.add(200)
-  ##    doAssert v.first() == 100
-  ##
-  ##    v.first() = 300
-  ##    doAssert v.first() == 300
-  ##    doAssert v.first() == v.front()
+  runnableExamples:
+    var
+      v = newVector[int]()
 
-proc last*[T](v: Vector[T]): var T {.importcpp: "back".}
+    v.add(100)
+    v.add(200)
+    doAssert v.first() == 100
+
+    v.first() = 300
+    doAssert v.first() == 300
+    doAssert v.first() == v.front()
+
+proc last*[T](v: Vector[T]): var T {.importcpp: "back".} =
   ## Return the reference to the last element of the Vector.
   ##
   ## This has an alias proc `back`.
   ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = newVector[int]()
-  ##
-  ##    v.add(100)
-  ##    v.add(200)
-  ##    doAssert v.last() == 200
-  ##
-  ##    v.last() = 300
-  ##    doAssert v.last() == 300
-  ##    doAssert v.last() == v.back()
-  ##
   ## https://www.cplusplus.com/reference/vector/vector/back/
+  runnableExamples:
+    var
+      v = newVector[int]()
 
-proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(@)".}
+    v.add(100)
+    v.add(200)
+    doAssert v.last() == 200
+
+    v.last() = 300
+    doAssert v.last() == 300
+    doAssert v.last() == v.back()
+
+proc assign*[T](v: var Vector[T], num: SizeType, val: T) {.importcpp: "#.assign(@)".} =
   ## Return a Vector with `num` elements assigned to the specified value `val`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/assign
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v: Vector[float]
-  ##
-  ##    v.assign(5, 1.0)
-  ##    doAssert v.toSeq() == @[1.0, 1.0, 1.0, 1.0, 1.0]
-  ##
-  ##    v.assign(2, 2.3)
-  ##    doAssert v.toSeq() == @[2.3, 2.3]
+  runnableExamples:
+    var
+      v: Vector[float]
+
+    v.assign(5, 1.0)
+    doAssert v.toSeq() == @[1.0, 1.0, 1.0, 1.0, 1.0]
+
+    v.assign(2, 2.3)
+    doAssert v.toSeq() == @[2.3, 2.3]
 
 # https://github.com/BigEpsilon/nim-cppstl/blob/de045c27dbbcf193081de5ea2b62f50751bf24fc/src/cppstl/vector.nim#L171
 # Relational operators
-proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".}
+proc `==`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# == #".} =
   ## Return `true` if the contents of lhs and rhs are equal, that is,
   ## they have the same number of elements and each element in lhs compares
   ## equal with the element in rhs at the same position.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##      v2 = v1
-  ##    doAssert v1 == v2
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+      v2 = v1
+    doAssert v1 == v2
 
-proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".}
+proc `!=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# != #".} =
   ## Return `true` if the contents of lhs and rhs are not equal, that is,
   ## either they do not have the same number of elements, or one of the elements
   ## in lhs does not compare equal with the element in rhs at the same position.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##    var
-  ##      v2 = v1
-  ##      v3 = v1
-  ##    v2.add(4)
-  ##    doAssert v2 != v1
-  ##
-  ##    v3[0] = 100
-  ##    doAssert v3 != v1
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+    var
+      v2 = v1
+      v3 = v1
+    v2.add(4)
+    doAssert v2 != v1
 
-proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".}
+    v3[0] = 100
+    doAssert v3 != v1
+
+proc `<`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# < #".} =
   ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
   ## less than `b`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##    var
-  ##      v2 = v1
-  ##    doAssert not (v1 < v2)
-  ##
-  ##    v2.add(4)
-  ##    doAssert v1 < v2
-  ##
-  ##    v2[2] = 0
-  ##    doAssert v2 < v1
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+    var
+      v2 = v1
+    doAssert not (v1 < v2)
 
-proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".}
+    v2.add(4)
+    doAssert v1 < v2
+
+    v2[2] = 0
+    doAssert v2 < v1
+
+proc `<=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# <= #".} =
   ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
   ## less than or equal to `b`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##    var
-  ##      v2 = v1
-  ##    doAssert v1 <= v2
-  ##
-  ##    v2.add(4)
-  ##    doAssert v1 <= v2
-  ##
-  ##    v2[2] = 0
-  ##    doAssert v2 <= v1
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+    var
+      v2 = v1
+    doAssert v1 <= v2
 
-proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".}
+    v2.add(4)
+    doAssert v1 <= v2
+
+    v2[2] = 0
+    doAssert v2 <= v1
+
+proc `>`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# > #".} =
   ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
   ## greater than `b`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##    var
-  ##      v2 = v1
-  ##    doAssert not (v2 > v1)
-  ##
-  ##    v2.add(4)
-  ##    doAssert v2 > v1
-  ##
-  ##    v2[2] = 0
-  ##    doAssert v1 > v2
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+    var
+      v2 = v1
+    doAssert not (v2 > v1)
 
-proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".}
+    v2.add(4)
+    doAssert v2 > v1
+
+    v2[2] = 0
+    doAssert v1 > v2
+
+proc `>=`*[T](a: Vector[T], b: Vector[T]): bool {.importcpp: "# >= #".} =
   ## Return `true` if `a` is `lexicographically <https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare>`_
   ## greater than or equal to `b`.
   ##
   ## https://en.cppreference.com/w/cpp/container/vector/operator_cmp
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @[1, 2, 3].toVector()
-  ##    var
-  ##      v2 = v1
-  ##    doAssert v2 >= v1
-  ##
-  ##    v2.add(4)
-  ##    doAssert v2 >= v1
-  ##
-  ##    v2[2] = 0
-  ##    doAssert v1 >= v2
+  runnableExamples:
+    let
+      v1 = @[1, 2, 3].toVector()
+    var
+      v2 = v1
+    doAssert v2 >= v1
+
+    v2.add(4)
+    doAssert v2 >= v1
+
+    v2[2] = 0
+    doAssert v1 >= v2
 
 # https://github.com/BigEpsilon/nim-cppstl/blob/master/src/cppstl/private/utils.nim
 # Iterator Arithmetic
-proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# + #"}
+proc `+`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# + #"} =
   ## Return an updated iterator pointing to the input iterator plus the specified `offset`.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1.0, 2.0, 3.0].toVector()
-  ##
-  ##    discard v.insert(v.cBegin()+1, 1.5)
-  ##    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 3.0]
-  ##
-  ##    discard v.insert(v.begin()+3, 2.5)
-  ##    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 2.5, 3.0]
+  runnableExamples:
+    var
+      v = @[1.0, 2.0, 3.0].toVector()
 
-proc `-`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# - #"}
+    discard v.insert(v.cBegin()+1, 1.5)
+    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 3.0]
+
+    discard v.insert(v.begin()+3, 2.5)
+    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 2.5, 3.0]
+
+proc `-`*[T: VectorIter|VectorConstIter](iter: T, offset: int): T {.importcpp: "# - #"} =
   ## Return an updated iterator pointing to the input iterator minus the specified `offset`.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1.0, 2.0, 3.0].toVector()
-  ##
-  ##    discard v.insert(v.cEnd()-1, 2.5)
-  ##    doAssert v.toSeq() == @[1.0, 2.0, 2.5, 3.0]
-  ##
-  ##    discard v.insert(v.`end`()-3, 1.5)
-  ##    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 2.5, 3.0]
+  runnableExamples:
+    var
+      v = @[1.0, 2.0, 3.0].toVector()
 
-proc begin*[T](v: Vector[T]): VectorIter[T] {.importcpp: "begin".}
+    discard v.insert(v.cEnd()-1, 2.5)
+    doAssert v.toSeq() == @[1.0, 2.0, 2.5, 3.0]
+
+    discard v.insert(v.`end`()-3, 1.5)
+    doAssert v.toSeq() == @[1.0, 1.5, 2.0, 2.5, 3.0]
+
+proc begin*[T](v: Vector[T]): VectorIter[T] {.importcpp: "begin".} =
   ## Return a mutable C++ iterator pointing to the beginning position of the Vector.
   ##
   ## https://www.cplusplus.com/reference/vector/vector/begin/
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1, 2, 3].toVector()
-  ##    discard v.insert(v.begin(), 100)
-  ##    doAssert v.toSeq() == @[100, 1, 2, 3]
+  runnableExamples:
+    var
+      v = @[1, 2, 3].toVector()
+    discard v.insert(v.begin(), 100)
+    doAssert v.toSeq() == @[100, 1, 2, 3]
 
-proc cBegin*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cbegin".}
+proc cBegin*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cbegin".} =
   ## Return an immutable C++ iterator pointing to the beginning position of the Vector.
   ##
   ## https://www.cplusplus.com/reference/vector/vector/begin/
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1, 2, 3].toVector()
-  ##    discard v.insert(v.cBegin(), 100)
-  ##    doAssert v.toSeq() == @[100, 1, 2, 3]
+  runnableExamples:
+    var
+      v = @[1, 2, 3].toVector()
+    discard v.insert(v.cBegin(), 100)
+    doAssert v.toSeq() == @[100, 1, 2, 3]
 
-proc `end`*[T](v: Vector[T]): VectorIter[T] {.importcpp: "end".}
+proc `end`*[T](v: Vector[T]): VectorIter[T] {.importcpp: "end".} =
   ## Return a mutable C++ iterator pointing to *after* the end position of the Vector.
   ##
   ## https://www.cplusplus.com/reference/vector/vector/end/
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1, 2, 3].toVector()
-  ##    discard v.insert(v.`end`(), 100)
-  ##    doAssert v.toSeq() == @[1, 2, 3, 100]
+  runnableExamples:
+    var
+      v = @[1, 2, 3].toVector()
+    discard v.insert(v.`end`(), 100)
+    doAssert v.toSeq() == @[1, 2, 3, 100]
 
-proc cEnd*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cend".}
+proc cEnd*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cend".} =
   ## Return an immutable C++ iterator pointing to *after* the end position of the Vector.
   ##
   ## https://www.cplusplus.com/reference/vector/vector/end/
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @[1, 2, 3].toVector()
-  ##    discard v.insert(v.cEnd(), 100)
-  ##    doAssert v.toSeq() == @[1, 2, 3, 100]
+  runnableExamples:
+    var
+      v = @[1, 2, 3].toVector()
+    discard v.insert(v.cEnd(), 100)
+    doAssert v.toSeq() == @[1, 2, 3, 100]
 
-proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T] {.importcpp: "insert".}
+proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T] {.importcpp: "insert".} =
   ## Insert an element before the specified position.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @['a', 'b'].toVector()
-  ##    discard v.insert(v.cBegin(), 'c')
-  ##    doAssert v.toSeq() == @['c', 'a', 'b']
+  runnableExamples:
+    var
+      v = @['a', 'b'].toVector()
+    discard v.insert(v.cBegin(), 'c')
+    doAssert v.toSeq() == @['c', 'a', 'b']
 
-proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val: T): VectorIter[T] {.importcpp: "insert".}
+proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val: T): VectorIter[T] {.importcpp: "insert".} =
   ## Insert `count` copies of element  before the specified position.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    var
-  ##      v = @['a', 'b'].toVector()
-  ##    discard v.insert(v.cBegin(), 3, 'c')
-  ##    doAssert v.toSeq() == @['c', 'c', 'c', 'a', 'b']
+  runnableExamples:
+    var
+      v = @['a', 'b'].toVector()
+    discard v.insert(v.cBegin(), 3, 'c')
+    doAssert v.toSeq() == @['c', 'c', 'c', 'a', 'b']
 
-proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorIter[T] {.importcpp: "insert".}
+proc insert*[T](v: var Vector[T], pos, first, last: VectorConstIter[T]): VectorIter[T] {.importcpp: "insert".} =
   ## Insert elements from range `first` ..< `last` before the specified position.
-  ##
-  ## .. code-block::
-  ##    :test:
-  ##    let
-  ##      v1 = @['a', 'b'].toVector()
-  ##    var
-  ##      v2: Vector[char]
-  ##    discard v2.insert(v2.cBegin(), v1.cBegin(), v1.cEnd())
-  ##    doAssert v2.toSeq() == @['a', 'b']
+  runnableExamples:
+    let
+      v1 = @['a', 'b'].toVector()
+    var
+      v2: Vector[char]
+    discard v2.insert(v2.cBegin(), v1.cBegin(), v1.cEnd())
+    doAssert v2.toSeq() == @['a', 'b']
 
 {.pop.} # {.push header: "<vector>".}
 
