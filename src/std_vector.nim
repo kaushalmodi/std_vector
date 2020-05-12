@@ -48,37 +48,6 @@ proc empty*(v: Vector): bool {.importcpp: "empty".} =
     v.add(100)
     doAssert not v.empty()
 
-proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".} =
-  ## Append a new element to the end of the Vector.
-  ##
-  ## This has an alias proc `pushBack`.
-  ##
-  ## https://en.cppreference.com/w/cpp/container/vector/push_back
-  runnableExamples:
-    var
-      v = newVector[int]()
-    doAssert v.len() == 0
-
-    v.add(100)
-    v.pushBack(200)
-    doAssert v.len() == 2
-
-proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".} =
-  ## Remove the last element of the Vector.
-  ## This proc does not return anything.
-  ##
-  ## https://www.cplusplus.com/reference/vector/vector/pop_back/
-  runnableExamples:
-    var
-      v = newVector[int]()
-    doAssert v.len() == 0
-
-    v.add(100)
-    doAssert v.len() == 1
-
-    v.popBack()
-    doAssert v.len() == 0
-
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
 proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".} =
   ## Return the reference to `v[idx]`.
@@ -314,6 +283,40 @@ proc cEnd*[T](v: Vector[T]): VectorConstIter[T] {.importcpp: "cend".} =
     discard v.insert(v.cEnd(), 100)
     doAssert v.toSeq() == @[1, 2, 3, 100]
 
+
+# Modifiers
+
+proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".} =
+  ## Append a new element to the end of the Vector.
+  ##
+  ## This has an alias proc `pushBack`.
+  ##
+  ## https://en.cppreference.com/w/cpp/container/vector/push_back
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.len() == 0
+
+    v.add(100)
+    v.pushBack(200)
+    doAssert v.len() == 2
+
+proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".} =
+  ## Remove the last element of the Vector.
+  ## This proc does not return anything.
+  ##
+  ## https://www.cplusplus.com/reference/vector/vector/pop_back/
+  runnableExamples:
+    var
+      v = newVector[int]()
+    doAssert v.len() == 0
+
+    v.add(100)
+    doAssert v.len() == 1
+
+    v.popBack()
+    doAssert v.len() == 0
+
 proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T] {.importcpp: "insert".} =
   ## Insert an element before the specified position.
   runnableExamples:
@@ -323,7 +326,7 @@ proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], val: T): VectorIter[T
     doAssert v.toSeq() == @['c', 'a', 'b']
 
 proc insert*[T](v: var Vector[T], pos: VectorConstIter[T], count: SizeType, val: T): VectorIter[T] {.importcpp: "insert".} =
-  ## Insert `count` copies of element  before the specified position.
+  ## Insert `count` copies of element before the specified position.
   runnableExamples:
     var
       v = @['a', 'b'].toVector()
