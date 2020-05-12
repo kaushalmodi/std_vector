@@ -1,3 +1,14 @@
+## :Author: Kaushal Modi
+## :License: MIT
+##
+## Introduction
+## ============
+## Nim wrapper to map with the C++ `std::vector <https://en.cppreference.com/w/cpp/container/vector>`_ library.
+##
+## Source
+## ======
+## `Repo link <https://github.com/kaushalmodi/std_vector>`_
+
 when defined(c) or defined(js) or defined(objc):
   {.error: "This library needs to be compiled with the cpp backend.".}
 
