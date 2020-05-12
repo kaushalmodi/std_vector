@@ -11,7 +11,7 @@ type
   # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-objects
   VectorIter*[T] {.importcpp: "std::vector<'0>::iterator".} = object
   VectorConstIter*[T] {.importcpp: "std::vector<'0>::const_iterator".} = object
-  SizeType* = uint
+  SizeType* = csize_t
 
 converter VectorIterToVectorConstIter*[T](x: VectorIter[T]): VectorConstIter[T] {.importcpp: "#".}
   ## Implicitly convert mutable C++ iterator to immutable C++ iterator.
