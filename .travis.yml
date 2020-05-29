@@ -1,9 +1,4 @@
-language: c
-# Fri May 29 10:49:17 EDT 2020 - kmodi
-# With language set as cpp, building the docs on Travis using nim devel (1.3.5) failed with:
-#   /home/travis/build/kaushalmodi/std_vector/nim/e31ac81899767e4cebb706ed473dae7ff6f0afd7/lib/js/dom.nim(14, 10)
-#   Error: This module only works on the JavaScript platform
-# language: cpp
+language: cpp
 
 cache:
   directories:
