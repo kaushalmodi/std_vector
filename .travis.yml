@@ -30,6 +30,9 @@ install:
       mv "${TRAVIS_BUILD_DIR}/config.nims.bkp" "${TRAVIS_BUILD_DIR}/config.nims"
       # After building nim, wipe csources to save on cache space.
       rm -rf csources
+      # Pre-build the dochack.js that will be needed in the docs building stage.
+      # https://github.com/kaushalmodi/std_vector/issues/6
+      nim js ./tools/dochack/dochack.nim
     fi
   # - |
   #   if [[ ! -f "${NIMDIR}/bin/nimble" ]]
