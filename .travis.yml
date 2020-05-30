@@ -23,14 +23,8 @@ install:
       cd csources
       sh build.sh
       cd ..
-      # Don't let the --backend switch in this repo's config.nims affect the nim build.
-      mv "${TRAVIS_BUILD_DIR}/config.nims" "${TRAVIS_BUILD_DIR}/config.nims.bkp"
       ./bin/nim c koch
       ./koch boot -d:release
-      # Pre-build the dochack.js that will be needed in the docs building stage.
-      # https://github.com/kaushalmodi/std_vector/issues/6
-      ./bin/nim js "${NIMDIR}/tools/dochack/dochack.nim"
-      mv "${TRAVIS_BUILD_DIR}/config.nims.bkp" "${TRAVIS_BUILD_DIR}/config.nims"
       # After building nim, wipe csources to save on cache space.
       rm -rf csources
     fi
