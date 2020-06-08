@@ -9,8 +9,7 @@
 ## ======
 ## `Repo link <https://github.com/kaushalmodi/std_vector>`_
 
-when defined(c) or defined(js) or defined(objc):
-  {.error: "This library needs to be compiled with the cpp backend.".}
+static: doAssert defined(cpp)
 
 import std/[strformat]
 
