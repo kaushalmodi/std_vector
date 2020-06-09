@@ -28,9 +28,9 @@ converter VectorIterToVectorConstIter*[T](x: VectorIter[T]): VectorConstIter[T] 
   ## Implicitly convert mutable C++ iterator to immutable C++ iterator.
 
 # https://nim-lang.github.io/Nim/manual.html#importcpp-pragma-importcpp-for-procs
-proc newVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
+proc initVector*[T](): Vector[T] {.importcpp: "std::vector<'*0>()", constructor.}
 # https://github.com/numforge/agent-smith/blob/a2d9251e/third_party/std_cpp.nim#L23-L31
-proc newVector*[T](size: SizeType): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
+proc initVector*[T](size: SizeType): Vector[T] {.importcpp: "std::vector<'*0>(#)", constructor.}
 
 proc len*(v: Vector): SizeType {.importcpp: "#.size()".} =
   ## Return the number of elements in the Vector.
@@ -40,7 +40,7 @@ proc len*(v: Vector): SizeType {.importcpp: "#.size()".} =
   ## https://en.cppreference.com/w/cpp/container/vector/size
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
     doAssert v.size() == 0
 
     v.add(100)
@@ -53,7 +53,7 @@ proc empty*(v: Vector): bool {.importcpp: "empty".} =
   ## https://en.cppreference.com/w/cpp/container/vector/empty
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
     doAssert v.empty()
 
     v.add(100)
@@ -64,7 +64,7 @@ proc `[]`*[T](v: Vector[T], idx: SizeType): var T {.importcpp: "#[#]".} =
   ## Return the reference to `v[idx]`.
   runnableExamples:
     var
-      v = newVector[char]()
+      v = initVector[char]()
     v.add('a')
     v.add('b')
     v.add('c')
@@ -82,7 +82,7 @@ proc first*[T](v: Vector[T]): var T {.importcpp: "front".} =
   ## https://en.cppreference.com/w/cpp/container/vector/front
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
 
     v.add(100)
     v.add(200)
@@ -100,7 +100,7 @@ proc last*[T](v: Vector[T]): var T {.importcpp: "back".} =
   ## https://www.cplusplus.com/reference/vector/vector/back/
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
 
     v.add(100)
     v.add(200)
@@ -305,7 +305,7 @@ proc add*[T](v: var Vector[T], elem: T){.importcpp: "#.push_back(#)".} =
   ## https://en.cppreference.com/w/cpp/container/vector/push_back
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
     doAssert v.len() == 0
 
     v.add(100)
@@ -319,7 +319,7 @@ proc popBack*[T](v: var Vector[T]) {.importcpp: "pop_back".} =
   ## https://www.cplusplus.com/reference/vector/vector/pop_back/
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
     doAssert v.len() == 0
 
     v.add(100)
@@ -394,7 +394,7 @@ proc `[]=`*[T](v: var Vector[T], idx: SizeType, val: T) {.inline.} =
   ## Set the value at `v[idx]` to the specified value `val`.
   runnableExamples:
     var
-      v = newVector[int](2)
+      v = initVector[int](2)
     doAssert v.toSeq() == @[0, 0]
 
     v[0] = -1
@@ -472,7 +472,7 @@ proc `$`*[T](v: Vector[T]): string {.noinit.} =
   ## This is used internally when calling `echo` on a Vector type variable.
   runnableExamples:
     var
-      v = newVector[int]()
+      v = initVector[int]()
     doAssert $v == "v[]"
 
     v.add(100)
@@ -493,8 +493,8 @@ when isMainModule:
   suite "constructor, size/len, empty":
     setup:
       var
-        v1 = newVector[int]()
-        v2 = newVector[int](10)
+        v1 = initVector[int]()
+        v2 = initVector[int](10)
 
     test "size/len":
       check v1.size() == 0.SizeType
@@ -507,7 +507,7 @@ when isMainModule:
   suite "push, pop":
     setup:
       var
-        v = newVector[int]()
+        v = initVector[int]()
 
     test "push/add, pop, front/first, back/last":
       v.pushBack(100)
@@ -539,7 +539,7 @@ when isMainModule:
   suite "iterators, $":
     setup:
       var
-        v = newVector[cstring]()
+        v = initVector[cstring]()
 
       v.add("hi")
       v.add("there")
@@ -606,7 +606,7 @@ when isMainModule:
   suite "set an element value":
     setup:
       var
-        v = newVector[int](5)
+        v = initVector[int](5)
 
     test "[]=":
       v[1] = 100
