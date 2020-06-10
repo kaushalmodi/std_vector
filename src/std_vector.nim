@@ -9,7 +9,8 @@
 ## ======
 ## `Repo link <https://github.com/kaushalmodi/std_vector>`_
 
-static: doAssert defined(cpp)
+when not defined(cpp):
+  {.error: "This library needs to be compiled with the cpp backend.".}
 
 import std/[strformat]
 
