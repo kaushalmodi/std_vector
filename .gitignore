@@ -9,5 +9,4 @@
 !*/
 
 /public
-*.out.css
-*.html
+htmldocs

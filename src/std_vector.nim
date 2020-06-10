@@ -9,7 +9,7 @@
 ## ======
 ## `Repo link <https://github.com/kaushalmodi/std_vector>`_
 
-when defined(c) or defined(js) or defined(objc):
+when not defined(cpp):
   {.error: "This library needs to be compiled with the cpp backend.".}
 
 import std/[strformat]
