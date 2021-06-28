@@ -1,6 +1,8 @@
 #+title: Nim wrapper for C++ std::vector
 
-[[https://travis-ci.org/kaushalmodi/std_vector][https://travis-ci.org/kaushalmodi/std_vector.svg?branch=master]]
+*The contents of this repo have now transferred to
+https://github.com/Clonkk/nim-cppstl. This repo has been archived as
+of 2021/06/28.*
 
 [[https://kaushalmodi.github.io/std_vector/][Documentation]]
 
